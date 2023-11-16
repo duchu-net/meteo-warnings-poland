@@ -1,14 +1,15 @@
 Home Assistant sensor with meteo warnings in Poland.
 
-[<img src="./mwp-states.jpg" height="200" />](./mwp-states.jpg)
+[<img src="./mwp-dashboard.jpg" width="300" />](./mwp-dashboard.jpg)
+[<img src="./mwp-states.jpg" width="300" />](./mwp-states.jpg)
 
 ### Data source
 
 Data comes from [meteo IMGW](https://meteo.imgw.pl/dyn/), with fallowing endpoints:
 
-[x] [https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/osmet-teryt](https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/osmet-teryt)
-[] todo [https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/komet-teryt](https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/komet-teryt)
-[] todo [https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn](https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn)
+[x] [https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/osmet-teryt](https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/osmet-teryt)  
+[] todo [https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/komet-teryt](https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/komet-teryt)  
+[] todo [https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn](https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn)  
 
 ### Config
 
