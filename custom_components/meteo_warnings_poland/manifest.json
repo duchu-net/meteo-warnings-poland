@@ -1,13 +1,15 @@
 {
-  "domain": "meteo-warnings-poland",
-  "name": "IMGW Warnings Sensors",
-  "version": "0.0.1",
-  "documentation": "https://github.com/duchu-net/sensor.meteo-warnings-poland",
-  "issue_tracker": "https://github.com/duchu-net/sensor.meteo-warnings-poland/issues",
-  "codeowners": [
-    "@duchunet"
-  ],
-  "requirements": [],
-  "iot_class": "cloud_polling",
-  "dependencies": []
+  "domain": "meteo_warnings_poland",
+  "name": "Meteo Warnings Poland",
+  "documentation": "https://example.com/meteo_warnings_poland/docs",
+  "version": "0.1",
+  "description": "Custom Meteo Warnings Integration for Poland",
+  "integration": "meteo_warnings_poland",
+  "config": {
+    "region_id": "string",
+    "region_ids": [
+      "string"
+    ],
+    "update_interval": "positive_time_period"
+  }
 }

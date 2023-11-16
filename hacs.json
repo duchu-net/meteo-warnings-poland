@@ -1,0 +1,13 @@
+{
+  "name": "Meteo Warnings Poland",
+  "country": [
+    "PL"
+  ],
+  "domains": [
+    "meteo_warnings_poland"
+  ],
+  "render_readme": "true",
+  "iot_class": [
+    "Cloud Polling"
+  ]
+}
