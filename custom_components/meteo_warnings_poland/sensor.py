@@ -10,24 +10,24 @@ from homeassistant.helpers.entity import Entity
 from homeassistant.util import Throttle
 import homeassistant.helpers.config_validation as cv
 
-# from . import const # todo
-# REGIONS = const.REGIONS
-from const import REGIONS
+# TESTING ONLY
+# from const import REGIONS
+from . import const
+REGIONS = const.REGIONS
 
 # Create a logger
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)  # Set the logging level to DEBUG
 
-# Create a console handler and set the level to DEBUG
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.DEBUG)
-
-# Create a formatter and attach it to the console handler
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console_handler.setFormatter(formatter)
-
-# Add the console handler to the logger
-logger.addHandler(console_handler)
+# TESTING ONLY
+# logger.setLevel(logging.DEBUG)  # Set the logging level to DEBUG
+# # Create a console handler and set the level to DEBUG
+# console_handler = logging.StreamHandler()
+# console_handler.setLevel(logging.DEBUG)
+# # Create a formatter and attach it to the console handler
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# console_handler.setFormatter(formatter)
+# # Add the console handler to the logger
+# logger.addHandler(console_handler)
 
 DOMAIN = "meteo_warnings_poland"
 DEFAULT_NAME = "Meteo Warnings Poland"
@@ -166,18 +166,16 @@ class MeteoDataSensor(Entity):
             self._attr["warnings"] = []
 
 # TESTING ONLY
-if __name__ == "__main__":
-    # Instantiate the sensor for testing
-    name = "Meteo Data"
-    region_id = "2201"
-    region_ids = ["additional_region_id_1", "additional_region_id_2"]
-    update_interval = 30  # Adjust as needed
-    data_type = "warnings"
-    test_sensor = MeteoDataSensor(name, region_id, region_ids, update_interval, data_type)
-
-    # Manually call the update method
-    test_sensor.update()
-
-    # Print the state and attributes
-    logger.info(f"State: {test_sensor.state}")
-    logger.info(f"Attributes: {test_sensor.extra_state_attributes}")
+# if __name__ == "__main__":
+#     # Instantiate the sensor for testing
+#     name = "Meteo Data"
+#     region_id = "2201"
+#     region_ids = ["additional_region_id_1", "additional_region_id_2"]
+#     update_interval = 30  # Adjust as needed
+#     data_type = "warnings"
+#     test_sensor = MeteoDataSensor(name, region_id, region_ids, update_interval, data_type)
+#     # Manually call the update method
+#     test_sensor.update()
+#     # Print the state and attributes
+#     logger.info(f"State: {test_sensor.state}")
+#     logger.info(f"Attributes: {test_sensor.extra_state_attributes}")
