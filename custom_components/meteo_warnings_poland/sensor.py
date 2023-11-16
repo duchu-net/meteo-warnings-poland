@@ -113,7 +113,7 @@ class MeteoDataSensor(Entity):
     # async def async_update(self):
         try:
             all_warnings = []
-            highest_level = -1
+            highest_level = -2
             logger.debug("init update")
             
             # OSMET
