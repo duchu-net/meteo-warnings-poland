@@ -14,8 +14,6 @@ import homeassistant.helpers.config_validation as cv
 # REGIONS = const.REGIONS
 from const import REGIONS
 
-# logger = logging.getLogger(__name__)
-# logger.setLevel(logging.DEBUG)
 # Create a logger
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)  # Set the logging level to DEBUG
@@ -31,16 +29,13 @@ console_handler.setFormatter(formatter)
 # Add the console handler to the logger
 logger.addHandler(console_handler)
 
-# f = open('./regions.json', encoding="utf8")
-# REGIONS = json.load(f)
-
 DOMAIN = "meteo_warnings_poland"
 DEFAULT_NAME = "Meteo Warnings Poland"
 CONF_REGION_ID = "region_id"
 CONF_REGION_IDS = "region_ids"
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
-    vol.Required(CONF_REGION_ID, default='2201'): cv.string,
+    vol.Required(CONF_REGION_ID): cv.string,
     vol.Optional(CONF_REGION_IDS, default=[]): vol.All(cv.ensure_list, [cv.string]),
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): str,
     # vol.Optional("update_interval", default=30): vol.All(vol.Coerce(int), vol.Range(min=10)),
@@ -68,8 +63,6 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 
 
 class MeteoDataSensor(Entity):
-    """Representation of a Meteo Data sensor."""
-
     def __init__(self, name, region_id, region_ids, update_interval, data_type):
         """Initialize the Meteo Data sensor."""
         region_name = REGIONS[region_id]
@@ -84,8 +77,6 @@ class MeteoDataSensor(Entity):
         self._attr = {
             "region": region_name
         }
-
-        # f.close()
 
     @property
     def name(self):
@@ -117,7 +108,7 @@ class MeteoDataSensor(Entity):
         return self._attr
 
     # @Throttle("update_interval")
-    @Throttle(timedelta(seconds=30))
+    @Throttle(timedelta(minutes=10))
     def update(self):
     # async def async_update(self):
         try:
