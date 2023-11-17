@@ -2,7 +2,7 @@
   "domain": "meteo_warnings_poland",
   "name": "Meteo Warnings Poland",
   "documentation": "https://example.com/meteo_warnings_poland/docs",
-  "version": "0.1",
+  "version": "0.0.1",
   "description": "Custom Meteo Warnings Integration for Poland",
   "integration": "meteo_warnings_poland",
   "config": {
