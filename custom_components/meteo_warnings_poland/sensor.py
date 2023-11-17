@@ -1,6 +1,6 @@
 import logging
 import json
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 import voluptuous as vol
 import requests
@@ -130,6 +130,7 @@ class MeteoDataSensor(Entity):
     @Throttle(timedelta(minutes=10))
     def update(self):
         # async def async_update(self):
+        self._attr["updated_at"] = datetime.now()
         try:
             all_warnings = []
             highest_level = -2
