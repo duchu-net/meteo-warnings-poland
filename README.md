@@ -2,6 +2,7 @@ Home Assistant sensor with meteo warnings in Poland.
 
 [<img src="./mwp-dashboard.jpg" width="300" />](./mwp-dashboard.jpg)
 [<img src="./mwp-states.jpg" width="300" />](./mwp-states.jpg)
+[<img src="./mwp-attr.jpg" width="300" />](./mwp-attr.jpg)
 
 ### Data source
 

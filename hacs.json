@@ -4,7 +4,10 @@
     "PL"
   ],
   "domains": [
-    "meteo_warnings_poland"
+    "meteo_warnings_poland",
+    "meteo",
+    "forecast",
+    "weather"
   ],
   "render_readme": "true",
   "iot_class": [

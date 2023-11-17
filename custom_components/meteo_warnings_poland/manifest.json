@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "description": "Custom Meteo Warnings Integration for Poland",
   "integration": "meteo_warnings_poland",
-  "codeowners": ["@duchu-net"],
+  "codeowners": ["@DUCHu-net"],
   "config": {
     "region_id": "string",
     "region_ids": [

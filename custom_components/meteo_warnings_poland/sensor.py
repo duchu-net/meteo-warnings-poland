@@ -1,9 +1,10 @@
 import logging
-import json
-from datetime import timedelta, datetime
-
 import voluptuous as vol
 import requests
+
+from homeassistant.util import dt
+from datetime import timedelta
+
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.const import CONF_NAME
 from homeassistant.helpers.entity import Entity
@@ -69,6 +70,11 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     add_entities([meteo_warnings_sensor], True)
 
 
+# Parse IMGW API Dates format to UTC
+def to_utc(date):
+    return dt.as_utc(dt.parse_datetime(date))
+
+
 class MeteoDataSensor(Entity):
     # def __init__(self, name, region_id, region_ids, update_interval, data_type):
     def __init__(self, name, region_id, data_type):
@@ -130,13 +136,13 @@ class MeteoDataSensor(Entity):
     @Throttle(timedelta(minutes=10))
     def update(self):
         # async def async_update(self):
-        self._attr["updated_at"] = datetime.now()
+        self._attr["updated_at"] = dt.utcnow()
         try:
             all_warnings = []
             highest_level = -2
             logger.debug("init update")
 
-            # OSMET
+            # --- OSMET ---
             osmet_response = requests.get(
                 f"https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/osmet-teryt"
             )
@@ -145,19 +151,25 @@ class MeteoDataSensor(Entity):
             # logger.debug(f"Warnings Response Content: {osmet_response.text}")
             warnings_data = osmet_response.json()
             region_warnings = warnings_data.get("teryt", {}).get(self._region_id, [])
+
             for warn_code in region_warnings:
                 warn_data = warnings_data.get("warnings", {}).get(warn_code, {})
                 level = int(warn_data.get("Level", -2))
                 all_warnings.append(
                     {
+                        "id": warn_code,
                         "level": level,
                         "probability": int(warn_data.get("Probability", 0)),
                         "forecaster": warn_data.get("Name2"),
-                        # Dates:
-                        "from": warn_data.get("LxValidFrom"),
-                        "to": warn_data.get("LxValidTo"),
-                        "created_at": warn_data.get("LxReleaseDateTime"),
+                        # Local formatted
+                        "from_str": warn_data.get("ValidFrom"),
+                        "to_str": warn_data.get("ValidTo"),
+                        # UTC format
+                        "from": to_utc(warn_data.get("LxValidFrom")),
+                        "to": to_utc(warn_data.get("LxValidTo")),
+                        "created_at": to_utc(warn_data.get("LxReleaseDateTime")),
                         #  todo Content - comes also with eng text
+                        "code": warn_data.get("PhenomenonCode"),
                         "phenomenon": warn_data.get("PhenomenonName"),
                         "content": warn_data.get("Content"),
                         "comments": warn_data.get("Comments"),
@@ -167,14 +179,14 @@ class MeteoDataSensor(Entity):
                     }
                 )
 
-            # KOMET
+            # --- KOMET ---
             # todo - now its not returning data
             # komet_response = requests.get(
             #     f"https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/komet-teryt"
             # )
             # komet_data = komet_response.json().get("teryt", {}).get(self._region_id, [])
 
-            # HYDRO
+            # --- HYDRO ---
             # todo
 
             all_warnings.sort(key=lambda x: x["level"], reverse=True)
