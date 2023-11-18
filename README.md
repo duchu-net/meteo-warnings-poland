@@ -6,11 +6,14 @@ Home Assistant sensor with meteo warnings in Poland.
 
 ### Data source
 
-Data comes from [meteo IMGW](https://meteo.imgw.pl/dyn/), with fallowing endpoints:
+Data comes from [IMGW - Instytut Meteorologii i Gospodarki Wodnej](https://meteo.imgw.pl/dyn/) api, with fallowing endpoints:
 
 - [x] [https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/osmet-teryt](https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/osmet-teryt)
 - [ ] [https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/komet-teryt](https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/komet-teryt)
 - [ ] [https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn](https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn)
+
+## Instalation
+Use [HACS](https://github.com/hacs/integration) to instalation, just add `https://github.com/duchu-net/meteo-warnings-poland` to custom repo.
 
 ### Config
 
