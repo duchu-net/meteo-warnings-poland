@@ -13,7 +13,8 @@ Data comes from [IMGW - Instytut Meteorologii i Gospodarki Wodnej](https://meteo
 - [ ] [https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn](https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn)
 
 ## Instalation
-Use [HACS](https://github.com/hacs/integration) to instalation, just add `https://github.com/duchu-net/meteo-warnings-poland` to custom repo.
+
+Use [HACS](https://github.com/hacs/integration) for instalation, just add `https://github.com/duchu-net/meteo-warnings-poland` as custom repo.
 
 ### Config
 
@@ -21,23 +22,27 @@ For your region id check [regions codes](https://raw.githubusercontent.com/duchu
 
 ```yaml
 sensor:
+  # basic
   - platform: meteo_warnings_poland
-    region_id: "2201"
-    name: "Ostrzeżenia pogodowe"
+    region_id: "2201" # required
+    name: "Ostrzeżenia pogodowe" # optional
+
+  # multiple sensors can be added
   - platform: meteo_warnings_poland
     region_id: "0601"
-    name: "Ostrzeżenia pogodowe"
 ```
 
 ### Alternatives and complements
- - [Burze.dzis.net sensor](https://github.com/PiotrMachowski/Home-Assistant-custom-components-Burze.dzis.net)
- - [MeteoAlarm](https://www.home-assistant.io/integrations/meteoalarm/)
+- [Burze.dzis.net sensor](https://github.com/PiotrMachowski/Home-Assistant-custom-components-Burze.dzis.net) - lightning tracking service, data source: burze.dzis.net > blitzortung.org (Germany)
+- [MeteoAlarm](https://www.home-assistant.io/integrations/meteoalarm/) - service aggregating weather warnings in Europe, data source: Federal Institute for Geology, Geophysics, Climatology and Meteorology (Austria)
 
-### Todo  
-- [ ] multi-sensor coordinator  
-- [ ] warnings in progress  
-- [ ] forecast warnings  
-- [ ] [MeteoalarmCard](https://github.com/MrBartusek/MeteoalarmCard/tree/master) integration  
+### Todo
 
-### Links  
+- [ ] multi-sensor coordinator
+- [ ] warnings in progress
+- [ ] forecast warnings
+- [ ] [MeteoalarmCard](https://github.com/MrBartusek/MeteoalarmCard/tree/master) integration
+
+### Links
+
 - [Building a Home Assistant Custom Component](https://aarongodfrey.dev/home%20automation/building_a_home_assistant_custom_component_part_1/)
