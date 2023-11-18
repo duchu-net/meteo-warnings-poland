@@ -29,11 +29,15 @@ sensor:
     name: "Ostrzeżenia pogodowe"
 ```
 
-### Todo
-[ ] coordinator for multiple sensors
-[ ] currently in progress warning
-[ ] distinction between in progress and forecast
+### Alternatives and complements
+ - [Burze.dzis.net sensor](https://github.com/PiotrMachowski/Home-Assistant-custom-components-Burze.dzis.net)
+ - [MeteoAlarm](https://www.home-assistant.io/integrations/meteoalarm/)
 
-### Links
+### Todo  
+- [ ] multi-sensor coordinator  
+- [ ] warnings in progress  
+- [ ] forecast warnings  
+- [ ] [MeteoalarmCard](https://github.com/MrBartusek/MeteoalarmCard/tree/master) integration  
 
+### Links  
 - [Building a Home Assistant Custom Component](https://aarongodfrey.dev/home%20automation/building_a_home_assistant_custom_component_part_1/)
