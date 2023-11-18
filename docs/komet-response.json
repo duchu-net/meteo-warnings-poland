@@ -1,0 +1,43 @@
+{
+  "komets": {
+    "Sk20231117233821791": {
+      "Phenomenon": [
+        {
+          "Code": "OB",
+          "Name": "Oblodzenie"
+        }
+      ],
+      "ValidTo": "2023-11-18 03:32",
+      "ValidFrom": "2023-11-18 00:38",
+      "ReleaseDateTime": "2023-11-18 00:38",
+      "LxValidTo": "2023-11-18T03:32:02+01:00",
+      "LxValidFrom": "2023-11-18T00:38:21+01:00",
+      "LxReleaseDateTime": "2023-11-18T00:38:00+01:00",
+      "MeteorologicalSituation": "Obserwuje się w pobliżu gruntu spadek temperatury powietrza poniżej 0°C, co skutkować może miejscami zamarzaniem mokrej nawierzchni dróg i ich śliskością.",
+      "Comments": "Komunikat przygotowano na podstawie danych z systemów teledetekcji atmosfery oraz sieci pomiarowo-obserwacyjnych IMGW-PIB. Lokalnie zjawiska mogą mieć inny przebieg niż opisany.",
+      "Forecaster": "",
+      "Name2": "Biuro Meteorologicznych Prognoz Morskich w Gdyni"
+    }
+  },
+  "teryt": {
+    "3201": [
+      "Sk20231117233821791"
+    ],
+    "3209": [
+      "Sk20231117233821791"
+    ],
+    "3261": [
+      "Sk20231117233821791"
+    ]
+  },
+  "program": {
+    "Name": "PrOsMet",
+    "Version": "5.1.6.4",
+    "Producent": "IMGW-PIB",
+    "ExportTime": "2023-11-18 01:30",
+    "LxExportTime": "2023-11-18T01:30:10+01:00",
+    "LastChange": "2023-11-18 00:30:10 UTC",
+    "LxLastChange": "2023-11-18T01:30:10+01:00",
+    "unixLastChange": "1700267410"
+  }
+}

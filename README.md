@@ -9,12 +9,12 @@ Home Assistant sensor with meteo warnings in Poland.
 Data comes from [meteo IMGW](https://meteo.imgw.pl/dyn/), with fallowing endpoints:
 
 - [x] [https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/osmet-teryt](https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/osmet-teryt)
-- [ ] todo [https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/komet-teryt](https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/komet-teryt)
-- [ ] todo [https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn](https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn)
+- [ ] [https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/komet-teryt](https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/komet-teryt)
+- [ ] [https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn](https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn)
 
 ### Config
 
-For your region id check [regions codes](./custom_components/meteo_warnings_poland/const.py)
+For your region id check [regions codes](https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/custom_components/meteo_warnings_poland/const.py)
 
 ```yaml
 sensor:
@@ -25,6 +25,11 @@ sensor:
     region_id: "0601"
     name: "Ostrzeżenia pogodowe"
 ```
+
+### Todo
+[ ] coordinator for multiple sensors
+[ ] currently in progress warning
+[ ] distinction between in progress and forecast
 
 ### Links
 

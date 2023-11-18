@@ -1,0 +1,398 @@
+{
+  "warnings": [
+    {
+      "WarnHydro": {
+        "Number": "45",
+        "Office": "GDYN",
+        "Type": "OH",
+        "Phenomena": "SH",
+        "Level": "-1",
+        "SMS": "IMGW-PIB OSTRZEGA: SUSZA HYDROLOGICZNA Tazyna od 12:00/02.06.2023 do odwolania. W zwiazku z wystepujacymi niskimi przeplywami wody, w kolejnych dniach na obszarze zlewni Tazyny, spodziewane jest dalsze utrzymywanie sie przeplywow wody ponizej SNQ. Szczegoly na meteo.imgw.pl",
+        "Forecaster": "",
+        "ReleaseDateTime": "2023-06-02 11:57",
+        "LxReleaseDateTime": "2023-06-02T11:57:00+02:00",
+        "ValidFrom": "2023-06-02 12:00",
+        "LxValidFrom": "2023-06-02T12:00:00+02:00",
+        "ValidTo": "infinity",
+        "LxValidTo": "9999-12-32T00:00:00Z",
+        "Probability": "95",
+        "Content": "W związku z występującymi niskimi przepływami wody, w kolejnych dniach na obszarze zlewni Tążyny, spodziewane jest dalsze utrzymywanie się przepływów wody poniżej SNQ.",
+        "AreaDesc": "Tążyna (kujawsko-pomorskie)",
+        "Comments": "Ostrzeżenie wydawane jest w sytuacji, gdy aktualne lub prognozowane wartości przepływu na stacjach wodowskazowych uznanych za reprezentatywne układają się poniżej SNQ przez minimum 10 dni w obrębie jednego obszaru hydrologicznego (który obejmuje grupę zlewni monitorowanych przez PSHM)."
+      },
+      "Zlewnie": [
+        {
+          "Code": "Z_G_57_KP",
+          "Teryt": "04",
+          "ProwinceCode": "KP"
+        }
+      ],
+      "Province": [
+        "04"
+      ]
+    },
+    {
+      "WarnHydro": {
+        "Number": "120",
+        "Office": "KRAK",
+        "Type": "OH",
+        "Phenomena": "SH",
+        "Level": "-1",
+        "SMS": "IMGW-PIB OSTRZEGA: SUSZA HYDROLOGICZNA zlewnia Przemszy i przyrzecza Wisly od 12:00/05.06.2023 do odwolania. W zwiazku z wystepujacymi niskimi przeplywami wody na obszarze zlewni Przemszy oraz przyrzecza Wisly spodziewane jest dalsze utrzymywanie sie przeplywow wody ponizej SNQ. Szczegoly na meteo.imgw.pl",
+        "Forecaster": "",
+        "ReleaseDateTime": "2023-06-05 11:10",
+        "LxReleaseDateTime": "2023-06-05T11:10:00+02:00",
+        "ValidFrom": "2023-06-05 12:00",
+        "LxValidFrom": "2023-06-05T12:00:00+02:00",
+        "ValidTo": "infinity",
+        "LxValidTo": "9999-12-32T00:00:00Z",
+        "Probability": "100",
+        "Content": "W związku z występującymi niskimi przepływami wody na obszarze zlewni Przemszy oraz przyrzecza Wisły spodziewane jest dalsze utrzymywanie się przepływów wody poniżej SNQ.",
+        "AreaDesc": "zlewnia Przemszy i przyrzecza Wisły (małopolskie, śląskie)",
+        "Comments": "Ostrzeżenie wydawane jest w sytuacji, gdy aktualne lub prognozowane wartości przepływu na stacjach wodowskazowych uznanych za reprezentatywne układają się poniżej SNQ przez minimum 10 dni w obrębie jednego obszaru hydrologicznego (który obejmuje grupę zlewni monitorowanych przez PSHM)."
+      },
+      "Zlewnie": [
+        {
+          "Code": "Z_K_148_MP",
+          "Teryt": "12",
+          "ProwinceCode": "MP"
+        },
+        {
+          "Code": "Z_K_257_MP",
+          "Teryt": "12",
+          "ProwinceCode": "MP"
+        },
+        {
+          "Code": "Z_K_256_SL",
+          "Teryt": "24",
+          "ProwinceCode": "SL"
+        },
+        {
+          "Code": "Z_K_82_SL",
+          "Teryt": "24",
+          "ProwinceCode": "SL"
+        },
+        {
+          "Code": "Z_K_83_SL",
+          "Teryt": "24",
+          "ProwinceCode": "SL"
+        },
+        {
+          "Code": "Z_K_84_SL",
+          "Teryt": "24",
+          "ProwinceCode": "SL"
+        },
+        {
+          "Code": "RZ_K_254_S",
+          "Teryt": "24",
+          "ProwinceCode": "SL"
+        },
+        {
+          "Code": "Z_K_85_SL",
+          "Teryt": "24",
+          "ProwinceCode": "SL"
+        },
+        {
+          "Code": "Z_K_253_SL",
+          "Teryt": "24",
+          "ProwinceCode": "SL"
+        }
+      ],
+      "Province": [
+        "12",
+        "24"
+      ]
+    },
+    {
+      "WarnHydro": {
+        "Number": "49",
+        "Office": "GDYN",
+        "Type": "OH",
+        "Phenomena": "SH",
+        "Level": "-1",
+        "SMS": "IMGW-PIB OSTRZEGA: SUSZA HYDROLOGICZNA Gorna czesc zlewni rzeki Elblag od 11:44/05.06.2023 do odwolania. W zwiazku z wystepujacymi niskimi przeplywami wody, w kolejnych dniach na obszarze gornej czesci zlewni rzeki Elblag, spodziewane jest dalsze utrzymywanie sie przeplywow wody ponizej SNQ. Szczegoly na meteo.imgw.pl",
+        "Forecaster": "",
+        "ReleaseDateTime": "2023-06-05 11:44",
+        "LxReleaseDateTime": "2023-06-05T11:44:00+02:00",
+        "ValidFrom": "2023-06-05 11:44",
+        "LxValidFrom": "2023-06-05T11:44:00+02:00",
+        "ValidTo": "infinity",
+        "LxValidTo": "9999-12-32T00:00:00Z",
+        "Probability": "95",
+        "Content": "W związku z występującymi niskimi przepływami wody, w kolejnych dniach na obszarze górnej części zlewni rzeki Elbląg, spodziewane jest dalsze utrzymywanie się przepływów wody poniżej SNQ.",
+        "AreaDesc": "Górna część zlewni rzeki Elbląg (pomorskie)",
+        "Comments": "Ostrzeżenie wydawane jest w sytuacji, gdy aktualne lub prognozowane wartości przepływu na stacjach wodowskazowych uznanych za reprezentatywne układają się poniżej SNQ przez minimum 10 dni w obrębie jednego obszaru hydrologicznego (który obejmuje grupę zlewni monitorowanych przez PSHM)."
+      },
+      "Zlewnie": [
+        {
+          "Code": "Z_G_16_PM",
+          "Teryt": "22",
+          "ProwinceCode": "PM"
+        }
+      ],
+      "Province": [
+        "22"
+      ]
+    },
+    {
+      "WarnHydro": {
+        "Number": "49",
+        "Office": "POZN",
+        "Type": "OH",
+        "Phenomena": "SH",
+        "Level": "-1",
+        "SMS": "IMGW-PIB OSTRZEGA: SUSZA HYDROLOGICZNA Odra dolna od Warty do Gryfina od 10:51/09.07.2023 do odwolania. W zwiazku z wystepujacymi niskimi przeplywami wody, w kolejnych dniach na obszarze zlewni przyrzecza Odry dolnej od Warty do Gryfina, spodziewane jest dalsze utrzymywanie sie przeplywow wody ponizej SNQ. Szczegoly na meteo.imgw.pl",
+        "Forecaster": "",
+        "ReleaseDateTime": "2023-07-09 10:50",
+        "LxReleaseDateTime": "2023-07-09T10:50:00+02:00",
+        "ValidFrom": "2023-07-09 10:51",
+        "LxValidFrom": "2023-07-09T10:51:00+02:00",
+        "ValidTo": "infinity",
+        "LxValidTo": "9999-12-32T00:00:00Z",
+        "Probability": "90",
+        "Content": "W związku z występującymi niskimi przepływami wody, w kolejnych dniach na obszarze zlewni przyrzecza Odry dolnej od Warty do Gryfina, spodziewane jest dalsze utrzymywanie się przepływów wody poniżej SNQ.",
+        "AreaDesc": "Odra dolna od Warty do Gryfina (lubuskie, zachodniopomorskie)",
+        "Comments": "Ostrzeżenie wydawane jest w sytuacji, gdy aktualne lub prognozowane wartości przepływu na stacjach wodowskazowych uznanych za reprezentatywne układają się poniżej SNQ przez minimum 10 dni w obrębie jednego obszaru hydrologicznego (który obejmuje grupę zlewni monitorowanych przez PSHM)."
+      },
+      "Zlewnie": [
+        {
+          "Code": "Z_W_306_LB",
+          "Teryt": "08",
+          "ProwinceCode": "LB"
+        },
+        {
+          "Code": "Z_W_307_ZP",
+          "Teryt": "32",
+          "ProwinceCode": "ZP"
+        }
+      ],
+      "Province": [
+        "08",
+        "32"
+      ]
+    },
+    {
+      "WarnHydro": {
+        "Number": "29",
+        "Office": "SOWR",
+        "Type": "ZOH",
+        "Phenomena": "SH",
+        "Level": "-1",
+        "Reference": "2023-07-06 10:12",
+        "SMS": "IMGW-PIB OSTRZEGA: SUSZA HYDROLOGICZNA Gorny Elk, Gorna Lega, Pisa, Wegorapa od 10:11/19.07.2023 do odwolania. W zwiazku z wystepujacymi niskimi przeplywami wody, w kolejnych dniach na obszarze zlewni Pisy, Elku, Legi oraz Wegorapy spodziewane jest dalsze utrzymywanie sie przeplywow wody ponizej SNQ. Szczegoly na meteo.imgw.pl",
+        "Forecaster": "",
+        "ReleaseDateTime": "2023-07-19 10:11",
+        "LxReleaseDateTime": "2023-07-19T10:11:00+02:00",
+        "ValidFrom": "2023-07-19 10:11",
+        "LxValidFrom": "2023-07-19T10:11:00+02:00",
+        "ValidTo": "infinity",
+        "LxValidTo": "9999-12-32T00:00:00Z",
+        "Probability": "100",
+        "Content": "W związku z występującymi niskimi przepływami wody, w kolejnych dniach na obszarze zlewni Pisy, Ełku, Legi oraz Węgorapy spodziewane jest dalsze utrzymywanie się przepływów wody poniżej SNQ.",
+        "AreaDesc": "Górny Ełk, Górna Lega, Pisa, Węgorapa (podlaskie, warmińsko-mazurskie)",
+        "Comments": "Zmiana dotyczy obszaru obowiązywania."
+      },
+      "Zlewnie": [
+        {
+          "Code": "Z_K_368_PD",
+          "Teryt": "20",
+          "ProwinceCode": "PD"
+        },
+        {
+          "Code": "Z_K_355_WM",
+          "Teryt": "28",
+          "ProwinceCode": "WM"
+        },
+        {
+          "Code": "Z_K_369_WM",
+          "Teryt": "28",
+          "ProwinceCode": "WM"
+        },
+        {
+          "Code": "Z_K_374_WM",
+          "Teryt": "28",
+          "ProwinceCode": "WM"
+        }
+      ],
+      "Province": [
+        "20",
+        "28"
+      ]
+    },
+    {
+      "WarnHydro": {
+        "Number": "79",
+        "Office": "GDYN",
+        "Type": "OH",
+        "Phenomena": "SH",
+        "Level": "-1",
+        "SMS": "IMGW-PIB OSTRZEGA: SUSZA HYDROLOGICZNA Wel od 10:30/26.07.2023 do odwolania. W zwiazku z wystepujacymi niskimi przeplywami wody, w kolejnych dniach, na obszarze zlewni Wel, spodziewane jest dalsze utrzymywanie sie przeplywow wody ponizej SNQ. Szczegoly na meteo.imgw.pl",
+        "Forecaster": "",
+        "ReleaseDateTime": "2023-07-26 10:28",
+        "LxReleaseDateTime": "2023-07-26T10:28:00+02:00",
+        "ValidFrom": "2023-07-26 10:30",
+        "LxValidFrom": "2023-07-26T10:30:00+02:00",
+        "ValidTo": "infinity",
+        "LxValidTo": "9999-12-32T00:00:00Z",
+        "Probability": "90",
+        "Content": "W związku z występującymi niskimi przepływami wody, w kolejnych dniach, na obszarze zlewni Wel, spodziewane jest dalsze utrzymywanie się przepływów wody poniżej SNQ.",
+        "AreaDesc": "Wel (warmińsko-mazurskie)",
+        "Comments": "Ostrzeżenie wydawane jest w sytuacji, gdy aktualne lub prognozowane wartości przepływu na stacjach wodowskazowych uznanych za reprezentatywne układają się poniżej SNQ przez minimum 10 dni w obrębie jednego obszaru hydrologicznego (który obejmuje grupę zlewni monitorowanych przez PSHM)."
+      },
+      "Zlewnie": [
+        {
+          "Code": "Z_G_51_WM",
+          "Teryt": "28",
+          "ProwinceCode": "WM"
+        }
+      ],
+      "Province": [
+        "28"
+      ]
+    },
+    {
+      "WarnHydro": {
+        "Number": "81",
+        "Office": "GDYN",
+        "Type": "OH",
+        "Phenomena": "SH",
+        "Level": "-1",
+        "SMS": "IMGW-PIB OSTRZEGA: SUSZA HYDROLOGICZNA Drweca od zrodla do Welu od 10:35/26.07.2023 do odwolania. W zwiazku z wystepujacymi niskimi przeplywami wody, w kolejnych dniach, na obszarze zlewni Drwecy od zrodla do Welu, spodziewane jest dalsze utrzymywanie sie przeplywow wody ponizej SNQ. Szczegoly na meteo.imgw.pl",
+        "Forecaster": "",
+        "ReleaseDateTime": "2023-07-26 10:34",
+        "LxReleaseDateTime": "2023-07-26T10:34:00+02:00",
+        "ValidFrom": "2023-07-26 10:35",
+        "LxValidFrom": "2023-07-26T10:35:00+02:00",
+        "ValidTo": "infinity",
+        "LxValidTo": "9999-12-32T00:00:00Z",
+        "Probability": "90",
+        "Content": "W związku z występującymi niskimi przepływami wody, w kolejnych dniach, na obszarze zlewni Drwęcy od źródła do Welu, spodziewane jest dalsze utrzymywanie się przepływów wody poniżej SNQ.",
+        "AreaDesc": "Drwęca od źródła do Welu (warmińsko-mazurskie)",
+        "Comments": "Ostrzeżenie wydawane jest w sytuacji, gdy aktualne lub prognozowane wartości przepływu na stacjach wodowskazowych uznanych za reprezentatywne układają się poniżej SNQ przez minimum 10 dni w obrębie jednego obszaru hydrologicznego (który obejmuje grupę zlewni monitorowanych przez PSHM)."
+      },
+      "Zlewnie": [
+        {
+          "Code": "Z_G_11_WM",
+          "Teryt": "28",
+          "ProwinceCode": "WM"
+        }
+      ],
+      "Province": [
+        "28"
+      ]
+    },
+    {
+      "WarnHydro": {
+        "Number": "99",
+        "Office": "GDYN",
+        "Type": "OH",
+        "Phenomena": "SH",
+        "Level": "-1",
+        "SMS": "IMGW-PIB OSTRZEGA: SUSZA HYDROLOGICZNA Nogat od 12:11/21.08.2023 do odwolania. W zwiazku z wystepujacymi niskimi przeplywami wody, w kolejnych dniach, na obszarze zlewni Liwy, spodziewane jest dalsze utrzymywanie sie przeplywow wody ponizej SNQ. Szczegoly na meteo.imgw.pl",
+        "Forecaster": "",
+        "ReleaseDateTime": "2023-08-21 12:10",
+        "LxReleaseDateTime": "2023-08-21T12:10:00+02:00",
+        "ValidFrom": "2023-08-21 12:11",
+        "LxValidFrom": "2023-08-21T12:11:00+02:00",
+        "ValidTo": "infinity",
+        "LxValidTo": "9999-12-32T00:00:00Z",
+        "Probability": "90",
+        "Content": "W związku z występującymi niskimi przepływami wody, w kolejnych dniach, na obszarze zlewni Liwy, spodziewane jest dalsze utrzymywanie się przepływów wody poniżej SNQ.",
+        "AreaDesc": "Nogat (pomorskie, warmińsko-mazurskie)",
+        "Comments": "Ostrzeżenie wydawane jest w sytuacji, gdy aktualne lub prognozowane wartości przepływu na stacjach wodowskazowych uznanych za reprezentatywne układają się poniżej SNQ przez minimum 10 dni w obrębie jednego obszaru hydrologicznego (który obejmuje grupę zlewni monitorowanych przez PSHM)."
+      },
+      "Zlewnie": [
+        {
+          "Code": "Z_G_23_PM",
+          "Teryt": "22",
+          "ProwinceCode": "PM"
+        },
+        {
+          "Code": "Z_G_24_WM",
+          "Teryt": "28",
+          "ProwinceCode": "WM"
+        }
+      ],
+      "Province": [
+        "22",
+        "28"
+      ]
+    },
+    {
+      "WarnHydro": {
+        "Number": "86",
+        "Office": "SOWR",
+        "Type": "OH",
+        "Phenomena": "SH",
+        "Level": "-1",
+        "SMS": "IMGW-PIB OSTRZEGA: SUSZA HYDROLOGICZNA Zlewnia Lyny od 10:30/11.09.2023 do odwolania. W zwiazku z wystepujacymi niskimi przeplywami wody, w kolejnych dniach na obszarze zlewni Lyny spodziewane jest dalsze utrzymywanie sie przeplywow wody ponizej SNQ. Szczegoly na meteo.imgw.pl",
+        "Forecaster": "",
+        "ReleaseDateTime": "2023-09-11 10:18",
+        "LxReleaseDateTime": "2023-09-11T10:18:00+02:00",
+        "ValidFrom": "2023-09-11 10:30",
+        "LxValidFrom": "2023-09-11T10:30:00+02:00",
+        "ValidTo": "infinity",
+        "LxValidTo": "9999-12-32T00:00:00Z",
+        "Probability": "95",
+        "Content": "W związku z występującymi niskimi przepływami wody, w kolejnych dniach na obszarze zlewni Łyny spodziewane jest dalsze utrzymywanie się przepływów wody poniżej SNQ.",
+        "AreaDesc": "Zlewnia Łyny (warmińsko-mazurskie)",
+        "Comments": "Ostrzeżenie wydawane jest w sytuacji, gdy aktualne lub prognozowane wartości przepływu na stacjach wodowskazowych uznanych za reprezentatywne układają się poniżej SNQ przez minimum 10 dni w obrębie jednego obszaru hydrologicznego (który obejmuje grupę zlewni monitorowanych przez PSHM)."
+      },
+      "Zlewnie": [
+        {
+          "Code": "Z_K_350_WM",
+          "Teryt": "28",
+          "ProwinceCode": "WM"
+        },
+        {
+          "Code": "Z_K_353_WM",
+          "Teryt": "28",
+          "ProwinceCode": "WM"
+        }
+      ],
+      "Province": [
+        "28"
+      ]
+    },
+    {
+      "WarnHydro": {
+        "Number": "95",
+        "Office": "SOWR",
+        "Type": "OH",
+        "Phenomena": "W_PSO",
+        "Level": "2",
+        "SMS": "IMGW-PIB OSTRZEGA: WEZBRANIE Z PRZEKROCZENIEM STANOW OSTRZEGAWCZYCH/2 Pilica do Zb. Sulejow od 09:00/15.11.2023 do 09:00/17.11.2023.  W zwiazku ze splywem wod opadowych i prognozowanymi kolejnymi opadami deszczu, na Czarnej w Januszewicach przewiduje sie dalsze wzrosty stanu wody, z mozliwoscia przekroczenia stanu ostrzegawczego. Szczegoly na meteo.imgw.pl",
+        "Forecaster": "",
+        "ReleaseDateTime": "2023-11-15 08:44",
+        "LxReleaseDateTime": "2023-11-15T08:44:00+01:00",
+        "ValidFrom": "2023-11-15 09:00",
+        "LxValidFrom": "2023-11-15T09:00:00+01:00",
+        "ValidTo": "2023-11-17 09:00",
+        "LxValidTo": "2023-11-17T09:00:00+01:00",
+        "Probability": "80",
+        "Content": " W związku ze spływem wód opadowych i prognozowanymi kolejnymi opadami deszczu, na Czarnej w Januszewicach przewiduje się dalsze wzrosty stanu wody, z możliwością przekroczenia stanu ostrzegawczego.",
+        "AreaDesc": "Pilica do Zb. Sulejów (świętokrzyskie)",
+        "Comments": "W przypadku istotnych zmian w czasie lub przebiegu zjawiska ostrzeżenie może ulec zmianie."
+      },
+      "Zlewnie": [
+        {
+          "Code": "Z_K_364_SW",
+          "Teryt": "26",
+          "ProwinceCode": "SW"
+        }
+      ],
+      "Province": [
+        "26"
+      ]
+    }
+  ],
+  "program": {
+    "Producent": "IMGW-PIB",
+    "ExportTime": "2023-11-16 16:30 UTC",
+    "ValidAfter": "2023-11-16 16:30 UTC",
+    "RelasedBefore": "2023-11-17 16:30 UTC",
+    "Version": "0.0.1",
+    "unixLastSave": "1700034340",
+    "unixLastChange": "1700037840"
+  }
+}

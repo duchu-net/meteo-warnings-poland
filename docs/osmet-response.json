@@ -1,0 +1,512 @@
+{
+  "warnings": {
+    "Sk20231117110039327": {
+      "PhenomenonCode": "IS",
+      "Level": "1",
+      "PhenomenonName": "Intensywne opady śniegu",
+      "Probability": "80",
+      "ValidTo": "2023-11-18 09:00",
+      "ValidFrom": "2023-11-17 23:00",
+      "ReleaseDateTime": "2023-11-17 12:00",
+      "LxValidTo": "2023-11-18T09:00:00+01:00",
+      "LxValidFrom": "2023-11-17T23:00:00+01:00",
+      "LxReleaseDateTime": "2023-11-17T12:00:00+01:00",
+      "Content": "Prognozowane są opady śniegu powodujące przyrost pokrywy śnieżnej o około 10 cm powyżej 600 m n.p.m.",
+      "Comments": "Brak.",
+      "EnContent": "It is forecasted snowfall causing snow cover increase 10 cm above 600 m amsl.",
+      "EnComments": "None.",
+      "EnPhenomenonName": "Heavy snow",
+      "SMS": "IMGW-PIB OSTRZEGA: ŚNIEG/1 dolnośląskie/Jelenia Góra od 23:00/17.11 do 09:00/18.11.2023 przyrost pokrywy 10 cm powyżej 600 m n.p.m.",
+      "Forecaster": "",
+      "Name2": "Centralne Biuro Prognoz Meteorologicznych w Warszawie"
+    },
+    "Sk20231117075228671": {
+      "PhenomenonCode": "IS",
+      "Level": "1",
+      "PhenomenonName": "Intensywne opady śniegu",
+      "Probability": "75",
+      "ValidTo": "2023-11-18 16:00",
+      "ValidFrom": "2023-11-17 15:00",
+      "ReleaseDateTime": "2023-11-17 08:52",
+      "LxValidTo": "2023-11-18T16:00:00+01:00",
+      "LxValidFrom": "2023-11-17T15:00:00+01:00",
+      "LxReleaseDateTime": "2023-11-17T08:52:00+01:00",
+      "Content": "Prognozowane są opady śniegu powodujące przyrost pokrywy śnieżnej o 10 cm do 15 cm.",
+      "Comments": "Brak.",
+      "EnContent": "It is forecasted snowfall causing snow cover increase by 10 cm to 15 cm in places.",
+      "EnComments": "None.",
+      "EnPhenomenonName": "Heavy snow",
+      "SMS": "IMGW-PIB OSTRZEGA: ŚNIEG/1 warmińsko-mazurskie/nidzicki od 15:00/17.11 do 16:00/18.11.2023 przyrost pokrywy 15 cm.",
+      "Forecaster": "",
+      "Name2": "Centralne Biuro Prognoz Meteorologicznych w Warszawie"
+    },
+    "Sk20231117044533348": {
+      "PhenomenonCode": "IS",
+      "Level": "1",
+      "PhenomenonName": "Intensywne opady śniegu",
+      "Probability": "80",
+      "ValidTo": "2023-11-18 15:00",
+      "ValidFrom": "2023-11-17 15:00",
+      "ReleaseDateTime": "2023-11-17 05:45",
+      "LxValidTo": "2023-11-18T15:00:00+01:00",
+      "LxValidFrom": "2023-11-17T15:00:00+01:00",
+      "LxReleaseDateTime": "2023-11-17T05:45:00+01:00",
+      "Content": "Prognozowane są opady śniegu powodujące przyrost pokrywy śnieżnej o 15 cm do 20 cm.",
+      "Comments": "Brak.",
+      "EnContent": "It is forecasted snowfall causing snow cover increase by 15 cm to 20 cm in places.",
+      "EnComments": "None.",
+      "EnPhenomenonName": "Heavy snow",
+      "SMS": "IMGW-PIB OSTRZEGA: ŚNIEG/1 małopolskie/nowotarski od 15:00/17.11 do 15:00/18.11.2023 przyrost pokrywy 15-20 cm.",
+      "Forecaster": "",
+      "Name2": "Centralne Biuro Prognoz Meteorologicznych w Warszawie"
+    },
+    "Sk20231117110351917": {
+      "PhenomenonCode": "IS",
+      "Level": "1",
+      "PhenomenonName": "Intensywne opady śniegu",
+      "Probability": "80",
+      "ValidTo": "2023-11-18 15:00",
+      "ValidFrom": "2023-11-17 12:03",
+      "ReleaseDateTime": "2023-11-17 12:03",
+      "LxValidTo": "2023-11-18T15:00:00+01:00",
+      "LxValidFrom": "2023-11-17T12:03:51+01:00",
+      "LxReleaseDateTime": "2023-11-17T12:03:00+01:00",
+      "Content": "Prognozowane są opady śniegu powodujące przyrost pokrywy śnieżnej o 15 cm do do 20 cm.",
+      "Comments": "Brak.",
+      "EnContent": "It is forecasted snowfall causing snow cover increase by 15 cm to 20 cm in places.",
+      "EnComments": "Zmiana dotyczy stopnia ostrzeżenia i długości trwania zjawiska ",
+      "EnPhenomenonName": "Heavy snow",
+      "SMS": "IMGW-PIB OSTRZEGA: ŚNIEG/1 małopolskie/tatrzański od 12:03/17.11 do 15:00/18.11.2023 przyrost pokrywy 15 cm.",
+      "Forecaster": "",
+      "Name2": "Centralne Biuro Prognoz Meteorologicznych w Warszawie"
+    },
+    "Sk20231117110045491": {
+      "PhenomenonCode": "OB",
+      "Level": "1",
+      "PhenomenonName": "Oblodzenie",
+      "Probability": "80",
+      "ValidTo": "2023-11-18 09:00",
+      "ValidFrom": "2023-11-17 23:00",
+      "ReleaseDateTime": "2023-11-17 12:00",
+      "LxValidTo": "2023-11-18T09:00:00+01:00",
+      "LxValidFrom": "2023-11-17T23:00:00+01:00",
+      "LxReleaseDateTime": "2023-11-17T12:00:00+01:00",
+      "Content": "Prognozuje się zamarzanie mokrej nawierzchni dróg i chodników po opadach deszczu ze śniegiem i mokrego śniegu powodujące ich oblodzenie. Temperatura minimalna od -4°C do -1°C.",
+      "Comments": "Brak.",
+      "EnContent": "It is expected roads and pavements icing caused by wet surface freezing after sleet and  wet snow falls. The minimum temperature from -4°C do -1°C. \r\n",
+      "EnComments": "None.",
+      "EnPhenomenonName": "Icing",
+      "SMS": "IMGW-PIB OSTRZEGA: OBLODZENIE/1 zachodniopomorskie/sławieński od 23:00/17.11 do 09:00/18.11.2023 temp. min. od -4 st. do -1 st, ślisko.",
+      "Forecaster": "",
+      "Name2": "Centralne Biuro Prognoz Meteorologicznych w Warszawie"
+    }
+  },
+  "teryt": {
+    "1002": [
+      "Sk20231117075228671"
+    ],
+    "1005": [
+      "Sk20231117075228671"
+    ],
+    "1013": [
+      "Sk20231117075228671"
+    ],
+    "1015": [
+      "Sk20231117075228671"
+    ],
+    "1063": [
+      "Sk20231117075228671"
+    ],
+    "1210": [
+      "Sk20231117044533348"
+    ],
+    "1211": [
+      "Sk20231117044533348"
+    ],
+    "1217": [
+      "Sk20231117110351917"
+    ],
+    "1262": [
+      "Sk20231117044533348"
+    ],
+    "1401": [
+      "Sk20231117075228671"
+    ],
+    "1402": [
+      "Sk20231117075228671"
+    ],
+    "1403": [
+      "Sk20231117075228671"
+    ],
+    "1404": [
+      "Sk20231117075228671"
+    ],
+    "1405": [
+      "Sk20231117075228671"
+    ],
+    "1406": [
+      "Sk20231117075228671"
+    ],
+    "1407": [
+      "Sk20231117075228671"
+    ],
+    "1408": [
+      "Sk20231117075228671"
+    ],
+    "1409": [
+      "Sk20231117075228671"
+    ],
+    "1410": [
+      "Sk20231117075228671"
+    ],
+    "1411": [
+      "Sk20231117075228671"
+    ],
+    "1412": [
+      "Sk20231117075228671"
+    ],
+    "1413": [
+      "Sk20231117075228671"
+    ],
+    "1414": [
+      "Sk20231117075228671"
+    ],
+    "1415": [
+      "Sk20231117075228671"
+    ],
+    "1416": [
+      "Sk20231117075228671"
+    ],
+    "1417": [
+      "Sk20231117075228671"
+    ],
+    "1418": [
+      "Sk20231117075228671"
+    ],
+    "1419": [
+      "Sk20231117075228671"
+    ],
+    "1420": [
+      "Sk20231117075228671"
+    ],
+    "1421": [
+      "Sk20231117075228671"
+    ],
+    "1422": [
+      "Sk20231117075228671"
+    ],
+    "1423": [
+      "Sk20231117075228671"
+    ],
+    "1424": [
+      "Sk20231117075228671"
+    ],
+    "1425": [
+      "Sk20231117075228671"
+    ],
+    "1426": [
+      "Sk20231117075228671"
+    ],
+    "1427": [
+      "Sk20231117075228671"
+    ],
+    "1428": [
+      "Sk20231117075228671"
+    ],
+    "1429": [
+      "Sk20231117075228671"
+    ],
+    "1430": [
+      "Sk20231117075228671"
+    ],
+    "1432": [
+      "Sk20231117075228671"
+    ],
+    "1433": [
+      "Sk20231117075228671"
+    ],
+    "1434": [
+      "Sk20231117075228671"
+    ],
+    "1435": [
+      "Sk20231117075228671"
+    ],
+    "1436": [
+      "Sk20231117075228671"
+    ],
+    "1437": [
+      "Sk20231117075228671"
+    ],
+    "1438": [
+      "Sk20231117075228671"
+    ],
+    "1461": [
+      "Sk20231117075228671"
+    ],
+    "1462": [
+      "Sk20231117075228671"
+    ],
+    "1463": [
+      "Sk20231117075228671"
+    ],
+    "1464": [
+      "Sk20231117075228671"
+    ],
+    "1465": [
+      "Sk20231117075228671"
+    ],
+    "2201": [
+      "Sk20231117110045491"
+    ],
+    "2202": [
+      "Sk20231117110045491"
+    ],
+    "2203": [
+      "Sk20231117110045491"
+    ],
+    "2204": [
+      "Sk20231117110045491"
+    ],
+    "2205": [
+      "Sk20231117110045491"
+    ],
+    "2206": [
+      "Sk20231117110045491"
+    ],
+    "2207": [
+      "Sk20231117110045491"
+    ],
+    "2208": [
+      "Sk20231117110045491"
+    ],
+    "2209": [
+      "Sk20231117110045491"
+    ],
+    "2210": [
+      "Sk20231117110045491"
+    ],
+    "2211": [
+      "Sk20231117110045491"
+    ],
+    "2212": [
+      "Sk20231117110045491"
+    ],
+    "2213": [
+      "Sk20231117110045491"
+    ],
+    "2214": [
+      "Sk20231117110045491"
+    ],
+    "2215": [
+      "Sk20231117110045491"
+    ],
+    "2216": [
+      "Sk20231117110045491"
+    ],
+    "2261": [
+      "Sk20231117110045491"
+    ],
+    "2262": [
+      "Sk20231117110045491"
+    ],
+    "2263": [
+      "Sk20231117110045491"
+    ],
+    "2264": [
+      "Sk20231117110045491"
+    ],
+    "2803": [
+      "Sk20231117075228671"
+    ],
+    "2811": [
+      "Sk20231117075228671"
+    ],
+    "2817": [
+      "Sk20231117075228671"
+    ],
+    "3019": [
+      "Sk20231117110045491"
+    ],
+    "3031": [
+      "Sk20231117110045491"
+    ],
+    "3201": [
+      "Sk20231117110045491"
+    ],
+    "3203": [
+      "Sk20231117110045491"
+    ],
+    "3209": [
+      "Sk20231117110045491"
+    ],
+    "3213": [
+      "Sk20231117110045491"
+    ],
+    "3215": [
+      "Sk20231117110045491"
+    ],
+    "3217": [
+      "Sk20231117110045491"
+    ],
+    "3261": [
+      "Sk20231117110045491"
+    ],
+    "0206": [
+      "Sk20231117110039327"
+    ],
+    "0261": [
+      "Sk20231117110039327"
+    ],
+    "0614": [
+      "Sk20231117075228671"
+    ],
+    "0618": [
+      "Sk20231117075228671"
+    ],
+    "0620": [
+      "Sk20231117075228671"
+    ],
+    "0662": [
+      "Sk20231117075228671"
+    ],
+    "0602": [
+      "Sk20231117075228671"
+    ],
+    "0603": [
+      "Sk20231117075228671"
+    ],
+    "0608": [
+      "Sk20231117075228671"
+    ],
+    "0619": [
+      "Sk20231117075228671"
+    ],
+    "0611": [
+      "Sk20231117075228671"
+    ],
+    "0612": [
+      "Sk20231117075228671"
+    ],
+    "0604": [
+      "Sk20231117075228671"
+    ],
+    "0609": [
+      "Sk20231117075228671"
+    ],
+    "0605": [
+      "Sk20231117075228671"
+    ],
+    "0601": [
+      "Sk20231117075228671"
+    ],
+    "0607": [
+      "Sk20231117075228671"
+    ],
+    "0610": [
+      "Sk20231117075228671"
+    ],
+    "0613": [
+      "Sk20231117075228671"
+    ],
+    "0615": [
+      "Sk20231117075228671"
+    ],
+    "0616": [
+      "Sk20231117075228671"
+    ],
+    "0617": [
+      "Sk20231117075228671"
+    ],
+    "0663": [
+      "Sk20231117075228671"
+    ],
+    "0606": [
+      "Sk20231117075228671"
+    ],
+    "0664": [
+      "Sk20231117075228671"
+    ],
+    "0661": [
+      "Sk20231117075228671"
+    ],
+    "0402": [
+      "Sk20231117110045491"
+    ],
+    "0404": [
+      "Sk20231117110045491"
+    ],
+    "0405": [
+      "Sk20231117110045491"
+    ],
+    "0406": [
+      "Sk20231117110045491"
+    ],
+    "0407": [
+      "Sk20231117110045491"
+    ],
+    "0403": [
+      "Sk20231117110045491"
+    ],
+    "0408": [
+      "Sk20231117110045491"
+    ],
+    "0409": [
+      "Sk20231117110045491"
+    ],
+    "0410": [
+      "Sk20231117110045491"
+    ],
+    "0411": [
+      "Sk20231117110045491"
+    ],
+    "0412": [
+      "Sk20231117110045491"
+    ],
+    "0413": [
+      "Sk20231117110045491"
+    ],
+    "0414": [
+      "Sk20231117110045491"
+    ],
+    "0415": [
+      "Sk20231117110045491"
+    ],
+    "0416": [
+      "Sk20231117110045491"
+    ],
+    "0417": [
+      "Sk20231117110045491"
+    ],
+    "0418": [
+      "Sk20231117110045491"
+    ],
+    "0419": [
+      "Sk20231117110045491"
+    ],
+    "0461": [
+      "Sk20231117110045491"
+    ],
+    "0462": [
+      "Sk20231117110045491"
+    ],
+    "0463": [
+      "Sk20231117110045491"
+    ],
+    "0464": [
+      "Sk20231117110045491"
+    ],
+    "0401": [
+      "Sk20231117110045491"
+    ]
+  },
+  "program": {
+    "Name": "PrOsMet",
+    "Version": "5.1.6.4",
+    "Producent": "IMGW-PIB",
+    "ExportTime": "2023-11-18 01:11",
+    "LxExportTime": "2023-11-18T01:11:54+01:00",
+    "LastChange": "2023-11-18 00:11:54 UTC",
+    "LxLastChange": "2023-11-18T01:11:54+01:00",
+    "unixLastChange": "1700266314"
+  }
+}
