@@ -326,7 +326,3 @@ class MWPPresentWarningLevelSensor(MWPSensor):
     @property
     def name(self):
         return f"{self.base_name()} {WARNING_TYPES[self._warning_type][4]}"
-
-    @property
-    def native_unit_of_measurement(self) -> str:
-        return " "
