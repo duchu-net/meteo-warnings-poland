@@ -1,0 +1,15 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "description": "Podaj region dla którego chcesz śledzić ostrzeżenia.",
+        "data": {
+          "region_id": "Nazwa Regionu"
+        }
+      }
+    },
+    "error": {
+      "invalid_api_key": "Nieprawidłowy klucz API"
+    }
+  }
+}

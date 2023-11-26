@@ -1,0 +1,15 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "description": "Enter the region for which you want to track warnings.",
+        "data": {
+          "region_id": "Region Name"
+        }
+      }
+    },
+    "error": {
+      "invalid_api_key": "Invalid API key"
+    }
+  }
+}

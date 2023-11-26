@@ -4,7 +4,9 @@
   "domain": "meteo_warnings_poland",
   "integration": "meteo_warnings_poland",
   "description": "Custom Meteo Warnings Integration for Poland",
-  "codeowners": ["@DUCHu-net"],
+  "codeowners": [
+    "@DUCHu-net"
+  ],
   "documentation": "https://github.com/duchu-net/meteo-warnings-poland",
   "issue_tracker": "https://github.com/duchu-net/meteo-warnings-poland/issues",
   "iot_class": "cloud_polling",
