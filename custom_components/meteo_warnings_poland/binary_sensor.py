@@ -1,12 +1,14 @@
 import logging
 from typing import Any, List, Mapping
 
-from homeassistant.components.binary_sensor import BinarySensorDeviceClass
+from homeassistant.components.binary_sensor import (
+    BinarySensorDeviceClass,
+    BinarySensorEntity,
+)
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util.dt import parse_datetime
-from homeassistant.components.binary_sensor import BinarySensorEntity
 
 from .const import DOMAIN, WARNING_TYPES
 from .coordinator import UpdateCoordinator, WarnData

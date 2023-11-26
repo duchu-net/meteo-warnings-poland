@@ -4,8 +4,8 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_ATTRIBUTION
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .coordinator import UpdateCoordinator, IntegrationData
 from .const import ATTRIBUTION, CONF_REGION_ID, DEFAULT_NAME, DOMAIN, REGIONS
+from .coordinator import IntegrationData, UpdateCoordinator
 
 
 class SensorEntity(CoordinatorEntity):

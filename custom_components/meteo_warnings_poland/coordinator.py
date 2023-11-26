@@ -1,13 +1,14 @@
-from datetime import timedelta
 import datetime
 import logging
+from datetime import timedelta
 from typing import Dict, List
-from homeassistant.util import dt
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 import requests
 
-from .const import DOMAIN, DEFAULT_UPDATE_INTERVAL
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.util import dt
+
+from .const import DEFAULT_UPDATE_INTERVAL, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -34,6 +35,7 @@ def get_color(level: int):
         return "var(--success-color)"
     if level > -2:
         return "var(--info-color)"
+    return ""
 
 
 class WarnData:
@@ -43,13 +45,13 @@ class WarnData:
         self.probability: int = -1
         self.forecaster: str = ""
         # Local formatted
-        self.from_str: str
-        self.to_str: str
+        self.start_str: str
+        self.end_str: str
         # UTC format
-        # self.from: datetime
-        self.to: datetime
+        self.start_at: datetime
+        self.end_at: datetime
         self.created_at: datetime
-        # todo Content - comes also with eng text
+        #
         self.code: str
         self.phenomenon: str
         self.content: str | None = None
@@ -95,71 +97,41 @@ class Connector:
 
             _LOGGER.debug(f"Warnings Response Status Code: {response.status_code}")
             _LOGGER.debug(f"Warnings Response Headers: {response.headers}")
-            # _LOGGER.debug(f"Warnings Response Content: {response.text}")
+            _LOGGER.debug(f"Warnings Response Content: {response.text}")
 
             warnings_data = response.json()
-            # _LOGGER.debug("warnings_data:", warnings_data)
-
             region_warnings = warnings_data.get("teryt", {}).get(self._region_id, [])
-            # _LOGGER.debug("region_warnings:", region_warnings)
 
             data.warnings = []
-            _LOGGER.debug("region_warnings:")
             for warn_code in region_warnings:
-                _LOGGER.debug("loop1")
                 warn_data = warnings_data.get("warnings", {}).get(warn_code, {})
-                _LOGGER.debug("loop2")
                 level = int(warn_data.get("Level", -2))
-                _LOGGER.debug("loop3")
-                _LOGGER.debug(f"loop", warn_code)
-                _LOGGER.debug(f"loop", level)
-                _LOGGER.debug("loop4")
 
+                # todo eng - content cames also with eng text, should be provided based on language
                 warn = WarnData()
                 warn.id = warn_code
                 warn.level = level
-                warn.content = warn_data.get("Content")
+                warn.probability = warn_data.get("Probability", 0)
+                warn.code = warn_data.get("PhenomenonCode")
                 warn.phenomenon = warn_data.get("PhenomenonName")
-                data.warnings.append(warn)
-                _LOGGER.debug("loop5")
-                _LOGGER.debug(len(data.warnings))
-                # all_warnings.append(
-                #     {
-                #         "id": warn_code,
-                #         "level": level,
-                #         "probability": int(warn_data.get("Probability", 0)),
-                #         "forecaster": warn_data.get("Name2"),
-                #         # Local formatted
-                #         "from_str": warn_data.get("ValidFrom"),
-                #         "to_str": warn_data.get("ValidTo"),
-                #         # UTC format
-                #         "from": to_utc(warn_data.get("LxValidFrom")),
-                #         "to": to_utc(warn_data.get("LxValidTo")),
-                #         "created_at": to_utc(warn_data.get("LxReleaseDateTime")),
-                #         #  todo Content - comes also with eng text
-                #         "code": warn_data.get("PhenomenonCode"),
-                #         "phenomenon": warn_data.get("PhenomenonName"),
-                #         "content": warn_data.get("Content"),
-                #         "comments": warn_data.get("Comments"),
-                #         "short": warn_data.get("SMS"),  # no eng version
-                #         # UI
-                #         "icon_color": get_color(level),
-                #     }
-                # )
+                warn.forecaster = warn_data.get("Name2")
+                warn.content = warn_data.get("Content")
+                # Local formatted
+                warn.start_str = warn_data.get("ValidFrom")
+                warn.end_str = warn_data.get("ValidTo")
+                # UTC format
+                warn.start_at = warn_data.get("LxValidFrom")
+                warn.end_at = warn_data.get("LxValidTo")
+                warn.created_at = warn_data.get("LxReleaseDateTime")
+                #
+                warn.comments = warn_data.get("Comments")
+                warn.short = warn_data.get("SMS")  # no eng version
+                # UI
+                warn.icon_color = get_color(level)
 
-            # latitude = self.convert_to_dm(self._latitude)
-            # longitude = self.convert_to_dm(self._longitude)
-            # data.ostrzezenia_pogodowe = service.ostrzezenia_pogodowe(
-            #     latitude, longitude, self._api_key
-            # )
-            # data.promieniowanie = service.promieniowanie(self._api_key)
-            # data.szukaj_burzy = service.szukaj_burzy(
-            #     latitude, longitude, self._radius, self._api_key
-            # )
+                data.warnings.append(warn)
         except Exception as err:
             _LOGGER.error("Error while downloading data from imgw - connector", err)
-        # except WebFault as fault:
-        #     _LOGGER.error("Error while downloading data from burze.dzis.net: {}", fault)
         return data
 
 

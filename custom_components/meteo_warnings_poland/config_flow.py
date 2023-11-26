@@ -1,20 +1,13 @@
 import logging
 from typing import Any, Mapping
 import voluptuous as vol
+
 from homeassistant import config_entries
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.selector import selector
 
-# from .connector import BurzeDzisNetConnector
-from .const import (
-    CONF_REGION_ID,
-    # DEFAULT_RADIUS_IN_KM,
-    DOMAIN,
-    # CONF_USE_HOME_COORDINATES,
-    DEFAULT_NAME,
-    REGIONS,
-)
+from .const import CONF_REGION_ID, DEFAULT_NAME, DOMAIN, REGIONS
 
 _LOGGER = logging.getLogger(__name__)
 

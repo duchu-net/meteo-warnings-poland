@@ -1,13 +1,13 @@
-from homeassistant.components.sensor import PLATFORM_SCHEMA
+import voluptuous as vol
+
 import homeassistant.helpers.config_validation as cv
+from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-import voluptuous as vol
 from homeassistant.exceptions import ConfigEntryNotReady
 
-from .coordinator import UpdateCoordinator
-
 from .const import CONF_REGION_ID, DOMAIN, PLATFORMS
+from .coordinator import UpdateCoordinator
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {

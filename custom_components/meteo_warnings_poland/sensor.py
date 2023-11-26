@@ -219,20 +219,18 @@
 # #     logger.info(f"State: {test_sensor.state}")
 # #     logger.info(f"Attributes: {test_sensor.extra_state_attributes}")
 
-import asyncio
 import datetime
 import logging
 from typing import Any, Mapping
 
+from homeassistant.components.sensor import SensorEntity, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.util.dt import parse_datetime
-from homeassistant.components.sensor import SensorEntity, SensorStateClass
 from homeassistant.helpers.typing import UNDEFINED, ConfigType, StateType, UndefinedType
+from homeassistant.util.dt import parse_datetime
 
 from .const import DOMAIN, WARNING_TYPES
-
 from .coordinator import UpdateCoordinator
 from .entity import SensorEntity as MWPSensorEntity
 

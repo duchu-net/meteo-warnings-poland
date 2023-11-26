@@ -1,12 +1,13 @@
 from datetime import timedelta
 from typing import Final
+
 from homeassistant.const import Platform
 
 CONF_NANE = "name"
 CONF_REGION_ID = "region_id"
 
 DOMAIN: Final = "meteo_warnings_poland"
-ATTRIBUTION = "Information provided by IMGW."
+ATTRIBUTION = "Information provided by [IMGW-PIB meteo](https://meteo.imgw.pl)."
 DEFAULT_NAME: Final = "Ostrzeżenia"
 MIN_UPDATE_INTERVAL: Final = timedelta(minutes=10)
 DEFAULT_UPDATE_INTERVAL: Final = timedelta(minutes=15)
