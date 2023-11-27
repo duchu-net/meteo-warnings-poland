@@ -219,9 +219,9 @@
 # #     logger.info(f"State: {test_sensor.state}")
 # #     logger.info(f"Attributes: {test_sensor.extra_state_attributes}")
 
-import datetime
 import logging
 from typing import Any, Mapping
+from datetime import datetime, timezone
 
 from homeassistant.components.sensor import SensorEntity, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
@@ -230,18 +230,11 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import UNDEFINED, ConfigType, StateType, UndefinedType
 from homeassistant.util.dt import parse_datetime
 
-from .const import DOMAIN, WARNING_TYPES
+from .const import DOMAIN, WARNING_TYPES, WARNINGS
 from .coordinator import UpdateCoordinator
 from .entity import SensorEntity as MWPSensorEntity
 
 _LOGGER = logging.getLogger(__name__)
-
-
-# def contains_object_with_key(objects, key):
-#     for obj in objects:
-#         if obj[key] is not None:
-#             return True
-#     return False
 
 
 async def async_setup_entry(
@@ -249,13 +242,11 @@ async def async_setup_entry(
 ):
     coordinator: UpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
     entities = []
-    for warning_type in WARNING_TYPES.keys():
+    entities.append(MWPPresentWarningSensor(coordinator, entry))
+    entities.append(MWPActiveWarningSensor(coordinator, entry))
+    for warning_type in WARNING_TYPES:
         entities.append(MWPPresentWarningLevelSensor(coordinator, entry, warning_type))
-        # entities.append(
-        #     BurzeDzisNetActiveWarningLevelSensor(coordinator, entry, warning_type)
-        # )
-    # entities.append(BurzeDzisNetStormNearbySensor(coordinator, entry))
-    # entities.append(BurzeDzisNetGammaRadiationSensor(coordinator, entry))
+        entities.append(MWPActiveWarningLevelSensor(coordinator, entry, warning_type))
     async_add_entities(entities)
 
 
@@ -267,6 +258,94 @@ class MWPSensor(SensorEntity, MWPSensorEntity):
     def unique_id(self):
         return f"{super().unique_id}_sensor"
 
+    @property
+    def available(self) -> bool:
+        data = self.get_data()
+        return super().available and data is not None and data.warnings is not None
+
+
+class MWPPresentWarningSensor(MWPSensor):
+    @property
+    def native_value(self) -> str | None:
+        data = self.get_data()
+        if data is None or data.warnings is None or len(data.warnings) < 1:
+            return None
+
+        warn = [d.phenomenon for d in data.warnings]
+        return ", ".join(warn)
+
+    @property
+    def extra_state_attributes(self) -> Mapping[str, Any]:
+        output = super().extra_state_attributes
+        output["warnings"] = []
+
+        data = self.get_data()
+        if self.state is not None and data is not None:
+            output["warnings"] = data.get_warnings_dict()
+
+        return output
+
+    @property
+    def unique_id(self):
+        return f"{super().unique_id}_present"
+
+    @property
+    def icon(self):
+        if self.state is not None:
+            return "mdi:alert-circle"
+        return "mdi:check-circle"
+
+    @property
+    def name(self):
+        return f"{self.base_name()} Ogłoszony Fenomen"
+
+
+def is_now_between(start: datetime, end: datetime):
+    current_time = datetime.now(timezone.utc)
+    # Ensure that start and end have the same time zone information
+    start = start.replace(tzinfo=timezone.utc)
+    end = end.replace(tzinfo=timezone.utc)
+    return start <= current_time <= end
+
+
+class MWPActiveWarningSensor(MWPPresentWarningSensor):
+    @property
+    def native_value(self) -> str | None:
+        data = self.get_data()
+        if data is None or data.warnings is None or len(data.warnings) < 1:
+            return None
+
+        active = []
+        for warning in data.warnings:
+            if is_now_between(warning.start_at, warning.end_at):
+                active.append(warning)
+
+        warn = [d.phenomenon for d in active]
+        if len(warn) > 0:
+            return ", ".join(warn)
+        return None
+
+    @property
+    def extra_state_attributes(self) -> Mapping[str, Any]:
+        output = super().extra_state_attributes
+        output["warnings"] = []
+
+        data = self.get_data()
+        if self.state is not None and data is not None and data.warnings is not None:
+            for warning in data.warnings:
+                if is_now_between(warning.start_at, warning.end_at):
+                    output["warnings"].append(warning.__dict__)
+
+        return output
+
+    @property
+    def unique_id(self):
+        return super().unique_id.replace("present", "active")
+
+    @property
+    def name(self):
+        return f"{self.base_name()} Aktywny Fenomen"
+
 
 class MWPPresentWarningLevelSensor(MWPSensor):
     def __init__(
@@ -277,52 +356,88 @@ class MWPPresentWarningLevelSensor(MWPSensor):
     ):
         super().__init__(coordinator, config_entry)
         self._warning_type = warning_type
-        self._warning_key = WARNING_TYPES[self._warning_type][0]
-        self._attr_entity_registry_enabled_default = False
+        self._warning_key = WARNINGS[self._warning_type][0]
 
     @property
-    def native_value(self) -> Any:
+    def native_value(self) -> str | None:
+        level = int(self._warning_type)
         data = self.get_data()
-        if data is None or data.warnings is None:
+        if data is None or level not in data.by_level:
             return None
 
-        warn = [
-            d.phenomenon for d in data.warnings if d.level == int(self._warning_type)
-        ]
+        warn = [d.phenomenon for d in data.by_level[level]]
+        return ", ".join(warn)
+
+    @property
+    def extra_state_attributes(self) -> Mapping[str, Any]:
+        output = super().extra_state_attributes
+        level = int(self._warning_type)
+        output["level"] = self._warning_key
+        output["warnings"] = []
+
+        data = self.get_data()
+        if self.state is not None and data is not None:
+            output["warnings"] = data.get_level_dict(level)
+        # if self.state is not None and data is not None and level in data.by_level:
+        #     for warn in data.by_level[level]:
+        #         output["warnings"].append(warn.__dict__)
+
+        return output
+
+    @property
+    def unique_id(self):
+        return f"{super().unique_id}_present_level_{self._warning_type}"
+
+    @property
+    def icon(self):
+        return WARNINGS[self._warning_type][1]
+
+    @property
+    def name(self):
+        return f"{self.base_name()} {WARNINGS[self._warning_type][4]}"
+
+
+class MWPActiveWarningLevelSensor(MWPPresentWarningLevelSensor):
+    @property
+    def native_value(self) -> str | None:
+        level = int(self._warning_type)
+        data = self.get_data()
+        if data is None or level not in data.by_level:
+            return None
+
+        active = []
+        for warning in data.by_level[level]:
+            if is_now_between(warning.start_at, warning.end_at):
+                active.append(warning)
+
+        warn = [d.phenomenon for d in active]
         if len(warn) > 0:
             return ", ".join(warn)
         return None
 
     @property
-    def extra_state_attributes(self) -> Mapping[str, str]:
+    def extra_state_attributes(self) -> Mapping[str, Any]:
         output = super().extra_state_attributes
-        # data = self.get_data().ostrzezenia_pogodowe
-        # if self.state is not None and self.state > 0 and data is not None:
-        #     output["level"] = data[self._warning_key]
-        #     output["description"] = WARNING_DESCRIPTIONS[self._warning_type][
-        #         data[self._warning_key]
-        #     ]
-        #     output["from"] = str(
-        #         parse_datetime(data[self._warning_key + "_od_dnia"] + "Z")
-        #     )
-        #     output["to"] = str(
-        #         parse_datetime(data[self._warning_key + "_do_dnia"] + "Z")
-        #     )
+        level = int(self._warning_type)
+        output["level"] = self._warning_key
+        output["warnings"] = []
+
+        data = self.get_data()
+        if self.state is not None and data is not None and level in data.by_level:
+            for warning in data.by_level[level]:
+                if is_now_between(warning.start_at, warning.end_at):
+                    output["warnings"].append(warning.__dict__)
+
         return output
 
     @property
-    def available(self) -> bool:
-        data = self.get_data()
-        return super().available and data is not None and data.warnings is not None
-
-    @property
     def unique_id(self):
-        return f"{super().unique_id}_present_warning_level_{self._warning_type}"
+        return super().unique_id.replace("present", "active")
 
     @property
     def icon(self):
-        return WARNING_TYPES[self._warning_type][1]
+        return WARNINGS[self._warning_type][1]
 
     @property
     def name(self):
-        return f"{self.base_name()} {WARNING_TYPES[self._warning_type][4]}"
+        return f"{self.base_name()} {WARNINGS[self._warning_type][5]}"

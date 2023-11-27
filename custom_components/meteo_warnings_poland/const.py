@@ -5,16 +5,17 @@ from homeassistant.const import Platform
 
 CONF_NANE = "name"
 CONF_REGION_ID = "region_id"
+CONF_UPDATE_INTERVAL = "update_interval"
 
 DOMAIN: Final = "meteo_warnings_poland"
-ATTRIBUTION = "Information provided by [IMGW-PIB meteo](https://meteo.imgw.pl)."
+ATTRIBUTION: Final = "Information provided by IMGW-PIB meteo, https://meteo.imgw.pl."
 DEFAULT_NAME: Final = "Ostrzeżenia"
 MIN_UPDATE_INTERVAL: Final = timedelta(minutes=10)
 DEFAULT_UPDATE_INTERVAL: Final = timedelta(minutes=15)
 
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
-WARNING_TYPES = {
+WARNINGS = {
     # "-2": ["none", "mdi:check-circle", "Ostrzeżenie - Brak ostrzeżeń"],
     # "-1": [
     #     "info",
@@ -27,31 +28,51 @@ WARNING_TYPES = {
     "1": [
         "medium",
         "mdi:numeric-1-box",
-        "Ostrzeżenie 1 stopnia",
-        "Ostrzeżenie 1 aktywne",
-        "Stopień 1",
+        "1 ogłoszony",  # present
+        "1 aktywny",  # active
+        "1 ogłoszony fenomen",  # sensor
+        "1 aktywny fenomen",  # sensor
     ],
     "2": [
         "severity",
         "mdi:numeric-2-box",
-        "Ostrzeżenie 2 stopnia",
-        "Ostrzeżenie 2 stopnia aktywne",
-        "Stopień 2",
+        "2 ogłoszony",
+        "2 aktywny",
+        "2 ogłoszony fenomen",
+        "2 aktywny fenomen",
     ],
     "3": [
         "extreme",
         "mdi:numeric-3-box",
-        "Ostrzeżenie 3 stopnia",
-        "Ostrzeżenie 3 stopnia aktywne",
-        "Stopień 3",
+        "3 ogłoszony",
+        "3 aktywny",
+        "3 ogłoszony fenomen",
+        "3 aktywny fenomen",
     ],
 }
-WARNING_CODES = {
-    "OB": ["Oblodzenie", "Icing"],
+WARNING_TYPES = list(WARNINGS.keys())
+
+PHENOMENONS = {
+    "BU": ["Burze", "-"],
+    "BG": ["Burze z gradem", "-"],
     "IS": ["Intensywne opady śniegu", "Heavy snow"],
-    "SH": ["SUSZA HYDROLOGICZNA", "-"],
-    "W_PSO": ["WEZBRANIE Z PRZEKROCZENIEM STANOW OSTRZEGAWCZYCH", "-"],
+    "ID": ["Intensywne opady deszczu", "-"],
+    "MS": ["Mgła intensywnie osadzająca szadź", "-"],
+    "OB": ["Oblodzenie", "Icing"],
+    "OM": ["Opady marznące", "-"],
+    "OS": ["Opady śniegu", "-"],
+    "PR": ["Przymrozki", "-"],
+    "RO": ["Roztopy", "-"],
+    "DB": ["Silny deszcz z burzami", "-"],
+    "MG": ["Gęsta mgła", "-"],
+    "MR": ["Silny mróz", "-"],
+    "SW": ["Silny wiatr", "-"],
+    "UP": ["Upał", "-"],
+    "ZZ": ["Zawieje zamiecie śnieżne", "-"],
+    # "SH": ["SUSZA HYDROLOGICZNA", "-"],
+    # "W_PSO": ["WEZBRANIE Z PRZEKROCZENIEM STANOW OSTRZEGAWCZYCH", "-"],
 }
+PHENOMENON_CODES = list(PHENOMENONS.keys())
 
 REGIONS = {
     "0201": "bolesławiecki",

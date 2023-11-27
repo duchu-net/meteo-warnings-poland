@@ -1,6 +1,5 @@
-import datetime
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Dict, List
 import requests
 
@@ -63,11 +62,41 @@ class WarnData:
 
 class IntegrationData:
     def __init__(self):
-        self.warnings: List[WarnData] | None = None
         self.updated_at: datetime | None = None
+        self.warnings: List[WarnData] | None = None
+        self.by_level: Dict[int, List[WarnData]] = {}
+        self.by_phenomenon: Dict[str, List[WarnData]] = {}
         # self.ostrzezenia_pogodowe: Dict[str, str | int] | None = None
         # self.szukaj_burzy: Dict[str, str | int | float] | None = None
         # self.promieniowanie: float | None = None
+
+    def get_level(self, level: int) -> List[WarnData]:
+        warnings = []
+        if level in self.by_level:
+            for warn in self.by_level[level]:
+                warnings.append(warn)
+        return warnings
+
+    def get_level_dict(self, level: int):
+        warnings = []
+        if level in self.by_level:
+            for warn in self.by_level[level]:
+                warnings.append(warn.__dict__)
+        return warnings
+
+    def get_phenomenon_dict(self, phenomenon_code: str):
+        warnings = []
+        if phenomenon_code in self.by_phenomenon:
+            for warn in self.by_phenomenon[phenomenon_code]:
+                warnings.append(warn.__dict__)
+        return warnings
+
+    def get_warnings_dict(self):
+        warnings = []
+        if self.warnings is not None:
+            for warn in self.warnings:
+                warnings.append(warn.__dict__)
+        return warnings
 
 
 class Connector:
@@ -106,13 +135,14 @@ class Connector:
             for warn_code in region_warnings:
                 warn_data = warnings_data.get("warnings", {}).get(warn_code, {})
                 level = int(warn_data.get("Level", -2))
+                code: str = warn_data.get("PhenomenonCode")
 
                 # todo eng - content cames also with eng text, should be provided based on language
                 warn = WarnData()
                 warn.id = warn_code
                 warn.level = level
                 warn.probability = warn_data.get("Probability", 0)
-                warn.code = warn_data.get("PhenomenonCode")
+                warn.code = code
                 warn.phenomenon = warn_data.get("PhenomenonName")
                 warn.forecaster = warn_data.get("Name2")
                 warn.content = warn_data.get("Content")
@@ -120,16 +150,27 @@ class Connector:
                 warn.start_str = warn_data.get("ValidFrom")
                 warn.end_str = warn_data.get("ValidTo")
                 # UTC format
-                warn.start_at = warn_data.get("LxValidFrom")
-                warn.end_at = warn_data.get("LxValidTo")
-                warn.created_at = warn_data.get("LxReleaseDateTime")
+                warn.start_at = to_utc(warn_data.get("LxValidFrom"))
+                warn.end_at = to_utc(warn_data.get("LxValidTo"))
+                warn.created_at = to_utc(warn_data.get("LxReleaseDateTime"))
                 #
                 warn.comments = warn_data.get("Comments")
                 warn.short = warn_data.get("SMS")  # no eng version
                 # UI
                 warn.icon_color = get_color(level)
 
+                # aggregated
                 data.warnings.append(warn)
+                # by level
+                _LOGGER.debug(f"Level: {level}")
+                # if data.by_level[level] is None:
+                if level not in data.by_level:
+                    data.by_level[level] = []
+                data.by_level[level].append(warn)
+                # by phenomenon
+                if code not in data.by_phenomenon:
+                    data.by_phenomenon[code] = []
+                data.by_phenomenon[code].append(warn)
         except Exception as err:
             _LOGGER.error("Error while downloading data from imgw - connector", err)
         return data
@@ -140,7 +181,7 @@ class UpdateCoordinator(DataUpdateCoordinator[IntegrationData]):
         self,
         hass: HomeAssistant,
         region_id: str,
-        update_interval=DEFAULT_UPDATE_INTERVAL,
+        update_interval: timedelta,
         # api_key: str,
         # latitude: float,
         # longitude: float,

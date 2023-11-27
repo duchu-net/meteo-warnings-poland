@@ -1,3 +1,5 @@
+import asyncio
+from datetime import datetime, timezone
 import logging
 from typing import Any, List, Mapping
 
@@ -10,7 +12,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util.dt import parse_datetime
 
-from .const import DOMAIN, WARNING_TYPES
+from .const import DOMAIN, PHENOMENON_CODES, PHENOMENONS, WARNINGS, WARNING_TYPES
 from .coordinator import UpdateCoordinator, WarnData
 from .entity import SensorEntity
 
@@ -37,18 +39,20 @@ async def async_setup_entry(
 ):
     coordinator: UpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
     entities = []
-    for warning_type in WARNING_TYPES.keys():
+    for warning_type in WARNING_TYPES:
         entities.append(WarningPresentBinarySensor(coordinator, entry, warning_type))
-        # entities.append(
-        #     BurzeDzisNetWarningActiveBinarySensor(coordinator, entry, warning_type)
-        # )
-    # entities.append(BurzeDzisNetStormNearbyBinarySensor(coordinator, entry))
+        entities.append(WarningActiveBinarySensor(coordinator, entry, warning_type))
+    for phenomenon_code in PHENOMENON_CODES:
+        entities.append(
+            PhenomenonWarningPresentBinarySensor(coordinator, entry, phenomenon_code)
+        )
     async_add_entities(entities)
 
 
 class BinarySensor(BinarySensorEntity, SensorEntity):
     def __init__(self, coordinator: UpdateCoordinator, config_entry: ConfigEntry):
         super().__init__(coordinator, config_entry)
+        self._attr_entity_registry_enabled_default = False
 
     @property
     def device_class(self):
@@ -68,15 +72,16 @@ class WarningPresentBinarySensor(BinarySensor):
     ):
         super().__init__(coordinator, config_entry)
         self._warning_type = warning_type
-        self._warning_key = WARNING_TYPES[self._warning_type][0]
+        self._warning_key = WARNINGS[self._warning_type][0]
 
     @property
     def is_on(self) -> bool:
+        level = int(self._warning_type)
         data = self.get_data()
         return (
             data is not None
-            and data.warnings is not None
-            and count_objects_with_level(data.warnings, int(self._warning_type)) > 0
+            and level in data.by_level
+            and len(data.by_level[level]) > 0
         )
 
     @property
@@ -87,114 +92,123 @@ class WarningPresentBinarySensor(BinarySensor):
     @property
     def extra_state_attributes(self) -> Mapping[str, Any]:
         output = super().extra_state_attributes
+        level = int(self._warning_type)
         output["level"] = self._warning_key
         output["warnings"] = []
 
-        warnings = self.get_data().warnings
-        if self.is_on and warnings is not None:
-            for warn in warnings:
-                if int(self._warning_type) == warn.level:
-                    output["warnings"].append(warn.__dict__)
-        # output["description"] = WARNING_DESCRIPTIONS[self._warning_type][
-        #     data[self._warning_key]
-        # ]
-        # output["from"] = str(
-        #     parse_datetime(data[self._warning_key + "_od_dnia"] + "Z")
-        # )
-        # output["to"] = str(
-        #     parse_datetime(data[self._warning_key + "_do_dnia"] + "Z")
-        # )
+        data = self.get_data()
+        if self.is_on and data is not None:
+            output["warnings"] = data.get_level_dict(level)
+
         return output
 
     @property
     def unique_id(self):
-        return f"{super().unique_id}_warning_present_{self._warning_type}"
+        return f"{super().unique_id}_present_{self._warning_type}"
 
     @property
     def icon(self):
-        return WARNING_TYPES[self._warning_type][1]
+        return WARNINGS[self._warning_type][1]
 
     @property
     def name(self):
-        return f"{self.base_name()} {WARNING_TYPES[self._warning_type][2]}"
+        return f"{self.base_name()} {WARNINGS[self._warning_type][2]}"
 
 
-# class BurzeDzisNetWarningActiveBinarySensor(WarningPresentBinarySensor):
-#     def __init__(
-#         self,
-#         coordinator: UpdateCoordinator,
-#         config_entry: ConfigEntry,
-#         warning_type: str,
-#     ):
-#         super().__init__(coordinator, config_entry, warning_type)
-
-#     @property
-#     def is_on(self) -> bool:
-#         is_present = super().is_on
-#         if is_present:
-#             data = self.get_data().ostrzezenia_pogodowe
-#             start = parse_datetime(data[self._warning_key + "_od_dnia"] + "Z")
-#             end = parse_datetime(data[self._warning_key + "_do_dnia"] + "Z")
-#             return start <= datetime.datetime.now(tz=start.tzinfo) <= end
-#         return False
-
-#     def should_poll(self) -> bool:
-#         return True
-
-#     async def async_update(self) -> None:
-#         await asyncio.sleep(0)
-
-#     @property
-#     def unique_id(self):
-#         return super().unique_id.replace("present", "active")
-
-#     @property
-#     def name(self):
-#         return f"{self.base_name()} {WARNING_TYPES[self._warning_type][3]}"
+def is_now_between(start: datetime, end: datetime):
+    current_time = datetime.now(timezone.utc)
+    # Ensure that start and end have the same time zone information
+    start = start.replace(tzinfo=timezone.utc)
+    end = end.replace(tzinfo=timezone.utc)
+    return start <= current_time <= end
 
 
-# class BurzeDzisNetStormNearbyBinarySensor(BinarySensor):
-#     def __init__(
-#         self, coordinator: UpdateCoordinator, config_entry: ConfigEntry
-#     ):
-#         super().__init__(coordinator, config_entry)
+class WarningActiveBinarySensor(WarningPresentBinarySensor):
+    def __init__(
+        self,
+        coordinator: UpdateCoordinator,
+        config_entry: ConfigEntry,
+        warning_type: str,
+    ):
+        super().__init__(coordinator, config_entry, warning_type)
 
-#     @property
-#     def is_on(self):
-#         data = self.get_data()
-#         return (
-#             data is not None
-#             and data.szukaj_burzy is not None
-#             and data.szukaj_burzy["liczba"] > 0
-#         )
+    @property
+    def is_on(self) -> bool:
+        level = int(self._warning_type)
+        data = self.get_data()
+        if super().is_on and data is not None:
+            warnings = data.get_level(level)
+            warn = warnings[0]  # todo map over all warnings
 
-#     @property
-#     def extra_state_attributes(self) -> dict:
-#         output = super().extra_state_attributes
-#         if self.is_on:
-#             data = self.get_data().szukaj_burzy
-#             output["number"] = data["liczba"]
-#             output["distance"] = data["odleglosc"]
-#             output["direction"] = data["kierunek"]
-#             output["period"] = data["okres"]
-#         return output
+            # start = warn.start_at
+            # end = warn.end_at
+            # return start <= datetime.datetime.now(tz=start.tzinfo) <= end  # type: ignore
+            return is_now_between(warn.start_at, warn.end_at)
+        return False
 
-#     @property
-#     def available(self) -> bool:
-#         return (
-#             super().available
-#             and self.get_data() is not None
-#             and self.get_data().szukaj_burzy is not None
-#         )
+    async def async_update(self) -> None:
+        await asyncio.sleep(0)
 
-#     @property
-#     def name(self):
-#         return f"{self.base_name()} {STORM_NEARBY[1]}"
+    @property
+    def unique_id(self):
+        return super().unique_id.replace("present", "active")
 
-#     @property
-#     def icon(self):
-#         return STORM_NEARBY[0]
+    @property
+    def name(self):
+        return f"{self.base_name()} {WARNINGS[self._warning_type][3]}"
 
-#     @property
-#     def unique_id(self):
-#         return f"{super().unique_id}_storm_nearby"
+
+""" 
+PHENOMENONS SENSOR 
+"""
+
+
+class PhenomenonWarningPresentBinarySensor(BinarySensor):
+    def __init__(
+        self,
+        coordinator: UpdateCoordinator,
+        config_entry: ConfigEntry,
+        phenomenon_code: str,
+    ):
+        super().__init__(coordinator, config_entry)
+        self._phenomenon_type = phenomenon_code
+        self._attr_entity_registry_enabled_default = False
+
+    @property
+    def is_on(self) -> bool:
+        data = self.get_data()
+        return (
+            data is not None
+            and self._phenomenon_type in data.by_phenomenon
+            and len(data.by_phenomenon[self._phenomenon_type]) > 0
+        )
+
+    @property
+    def available(self) -> bool:
+        data = self.get_data()
+        return super().available and data is not None and data.warnings is not None
+
+    @property
+    def extra_state_attributes(self) -> Mapping[str, Any]:
+        output = super().extra_state_attributes
+        phenomenon_code = self._phenomenon_type
+        output["phenomenon"] = PHENOMENONS[self._phenomenon_type][0]
+        output["warnings"] = []
+
+        data = self.get_data()
+        if self.is_on and data is not None:
+            output["warnings"] = data.get_phenomenon_dict(phenomenon_code)
+
+        return output
+
+    @property
+    def unique_id(self):
+        return f"{super().unique_id}_present_{self._phenomenon_type.lower()}"
+
+    # @property
+    # def icon(self):
+    #     return WARNINGS[self._phenomenon_type][1]
+
+    @property
+    def name(self):
+        return f"{self.base_name()} {PHENOMENONS[self._phenomenon_type][0]}"
