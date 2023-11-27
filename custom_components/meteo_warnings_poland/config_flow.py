@@ -1,3 +1,4 @@
+""" based on https://github.com/PiotrMachowski/Home-Assistant-custom-components-Burze.dzis.net """
 import logging
 from typing import Any, Mapping
 import voluptuous as vol
