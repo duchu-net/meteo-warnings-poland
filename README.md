@@ -18,7 +18,7 @@ Use [HACS](https://github.com/hacs/integration) for instalation, just add `https
 
 ### Config
 
-Search and add in addon manager [Meteo Warnings Poland], selected your region for watching.  
+Search and add in integration manager [Meteo Warnings Poland], selected your region for watching.  
 [DEPRECATED] Confing by yaml are deprecated. Now integration supports config flow.  
 For your region id check [regions codes](https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/custom_components/meteo_warnings_poland/const.py)
 
@@ -42,8 +42,8 @@ sensor:
 ### Todo
 
 - [x] multi-sensor coordinator
-- [ ] warnings in progress
-- [ ] forecast warnings
+- [x] warnings in progress
+- [x] forecast warnings
 - [ ] language support
 - [ ] [MeteoalarmCard](https://github.com/MrBartusek/MeteoalarmCard/tree/master) integration
 
