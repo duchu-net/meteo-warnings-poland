@@ -1,5 +1,6 @@
+from dataclasses import dataclass
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Dict, List
 import requests
 
@@ -17,6 +18,14 @@ osmet_url = f"https://meteo.imgw.pl/api/meteo/messages/v1/osmet/latest/osmet-ter
 # Parse IMGW API Dates format to UTC
 def to_utc(date: str):
     return dt.as_utc(dt.parse_datetime(date))
+
+
+def is_now_between(start: datetime, end: datetime):
+    current_time = datetime.now(timezone.utc)
+    # Ensure that start and end have the same time zone information
+    start = start.replace(tzinfo=timezone.utc)
+    end = end.replace(tzinfo=timezone.utc)
+    return start <= current_time <= end
 
 
 def get_icon(level: int):
@@ -37,6 +46,7 @@ def get_color(level: int):
     return ""
 
 
+# @dataclass
 class WarnData:
     def __init__(self):
         self.id: str = ""
@@ -66,52 +76,12 @@ class IntegrationData:
         self.warnings: List[WarnData] | None = None
         self.by_level: Dict[int, List[WarnData]] = {}
         self.by_phenomenon: Dict[str, List[WarnData]] = {}
-        # self.ostrzezenia_pogodowe: Dict[str, str | int] | None = None
-        # self.szukaj_burzy: Dict[str, str | int | float] | None = None
-        # self.promieniowanie: float | None = None
-
-    def get_level(self, level: int) -> List[WarnData]:
-        warnings = []
-        if level in self.by_level:
-            for warn in self.by_level[level]:
-                warnings.append(warn)
-        return warnings
-
-    def get_level_dict(self, level: int):
-        warnings = []
-        if level in self.by_level:
-            for warn in self.by_level[level]:
-                warnings.append(warn.__dict__)
-        return warnings
-
-    def get_phenomenon_dict(self, phenomenon_code: str):
-        warnings = []
-        if phenomenon_code in self.by_phenomenon:
-            for warn in self.by_phenomenon[phenomenon_code]:
-                warnings.append(warn.__dict__)
-        return warnings
-
-    def get_warnings_dict(self):
-        warnings = []
-        if self.warnings is not None:
-            for warn in self.warnings:
-                warnings.append(warn.__dict__)
-        return warnings
 
 
 class Connector:
     def __init__(self, region_id: str):
         self._region_id = region_id
-        # self._service: ServiceSelector | None = None
         # self._api_key = api_key
-        # self._latitude = latitude
-        # self._longitude = longitude
-        # self._radius = radius
-
-    # def get_service(self) -> ServiceSelector:
-    #     if self._service is None:
-    #         self._service = Client(WSDL_URL).service
-    #     return self._service
 
     def call_service(self):
         return requests.get(osmet_url)
@@ -183,9 +153,6 @@ class UpdateCoordinator(DataUpdateCoordinator[IntegrationData]):
         region_id: str,
         update_interval: timedelta,
         # api_key: str,
-        # latitude: float,
-        # longitude: float,
-        # radius: int,
     ):
         super().__init__(
             hass,
@@ -195,29 +162,50 @@ class UpdateCoordinator(DataUpdateCoordinator[IntegrationData]):
             update_method=self.update_method,
         )
         self.connector = Connector(region_id)
+        self._region_id = region_id
 
-    # async def _async_update_data(self):
-    #     try:
-    #         # Note: asyncio.TimeoutError and aiohttp.ClientError are already
-    #         # handled by the data update coordinator.
-    #         async with async_timeout.timeout(10):
-    #             # Grab active context variables to limit data required to be fetched from API
-    #             # Note: using context is not required if there is no need or ability to limit
-    #             # data retrieved from API.
-    #             listening_idx = set(self.async_contexts())
-    #             return await self._api.fetch_data(listening_idx)
-    #             # return await self.connector.get_data()
-    #     except:
-    #         _LOGGER.error("Error while downloading data from imgw - coordinator")
-    #     # except ApiAuthError as err:
-    #     #     # Raising ConfigEntryAuthFailed will cancel future updates
-    #     #     # and start a config flow with SOURCE_REAUTH (async_step_reauth)
-    #     #     raise ConfigEntryAuthFailed from err
-    #     # except ApiError as err:
-    #     #     raise UpdateFailed(f"Error communicating with API: {err}")
+    @property
+    def region_id(self):
+        return self._region_id
 
     async def update_method(self) -> IntegrationData:
         return await self.hass.async_add_executor_job(self._update)
 
     def _update(self) -> IntegrationData:
         return self.connector.get_data()
+
+    """ Utils """
+
+    def get_all(self, active: bool = False) -> List[WarnData]:
+        warnings = self.data.warnings
+        if warnings is not None:
+            if active:
+                return UpdateCoordinator.select_active(warnings)
+            return warnings
+        return []
+
+    def get_by_level(self, level: int, active: bool = False) -> List[WarnData]:
+        by_level = self.data.by_level
+        if level in by_level:
+            if active:
+                return UpdateCoordinator.select_active(by_level[level])
+            return by_level[level]
+        return []
+
+    def get_by_phenomenon(
+        self, phenomenon_code: str, active: bool = False
+    ) -> List[WarnData]:
+        by_phenomenon = self.data.by_phenomenon
+        if phenomenon_code in by_phenomenon:
+            if active:
+                return UpdateCoordinator.select_active(by_phenomenon[phenomenon_code])
+            return by_phenomenon[phenomenon_code]
+        return []
+
+    @staticmethod
+    def select_active(data: List[WarnData]) -> List[WarnData]:
+        warnings = []
+        for warn in data:
+            if is_now_between(warn.start_at, warn.end_at):
+                warnings.append(warn)
+        return warnings

@@ -1,4 +1,5 @@
 import asyncio
+from dataclasses import dataclass
 from datetime import datetime, timezone
 import logging
 from typing import Any, List, Mapping
@@ -7,10 +8,19 @@ from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
+from homeassistant.components.sensor import (
+    DOMAIN as PLATFORM,
+    SensorDeviceClass,
+    SensorEntity,
+    SensorEntityDescription,
+    SensorStateClass,
+)
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util.dt import parse_datetime
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
+
 
 from .const import DOMAIN, PHENOMENON_CODES, PHENOMENONS, WARNINGS, WARNING_TYPES
 from .coordinator import UpdateCoordinator, WarnData
@@ -46,10 +56,13 @@ async def async_setup_entry(
         entities.append(
             PhenomenonWarningPresentBinarySensor(coordinator, entry, phenomenon_code)
         )
+        entities.append(
+            PhenomenonWarningActiveBinarySensor(coordinator, entry, phenomenon_code)
+        )
     async_add_entities(entities)
 
 
-class BinarySensor(BinarySensorEntity, SensorEntity):
+class MWPBinarySensor(BinarySensorEntity, SensorEntity):
     def __init__(self, coordinator: UpdateCoordinator, config_entry: ConfigEntry):
         super().__init__(coordinator, config_entry)
         self._attr_entity_registry_enabled_default = False
@@ -63,7 +76,7 @@ class BinarySensor(BinarySensorEntity, SensorEntity):
         return f"{super().unique_id}_binary_sensor"
 
 
-class WarningPresentBinarySensor(BinarySensor):
+class WarningPresentBinarySensor(MWPBinarySensor):
     def __init__(
         self,
         coordinator: UpdateCoordinator,
@@ -72,33 +85,21 @@ class WarningPresentBinarySensor(BinarySensor):
     ):
         super().__init__(coordinator, config_entry)
         self._warning_type = warning_type
-        self._warning_key = WARNINGS[self._warning_type][0]
+        self._warning_level = int(self._warning_type)
 
     @property
     def is_on(self) -> bool:
-        level = int(self._warning_type)
-        data = self.get_data()
-        return (
-            data is not None
-            and level in data.by_level
-            and len(data.by_level[level]) > 0
-        )
-
-    @property
-    def available(self) -> bool:
-        data = self.get_data()
-        return super().available and data is not None and data.warnings is not None
+        return len(self.coordinator.get_by_level(self._warning_level)) > 0
 
     @property
     def extra_state_attributes(self) -> Mapping[str, Any]:
         output = super().extra_state_attributes
-        level = int(self._warning_type)
-        output["level"] = self._warning_key
+        output["level"] = self._warning_level
         output["warnings"] = []
-
-        data = self.get_data()
-        if self.is_on and data is not None:
-            output["warnings"] = data.get_level_dict(level)
+        if self.is_on:
+            output["warnings"] = [
+                x.__dict__ for x in self.coordinator.get_by_level(self._warning_level)
+            ]
 
         return output
 
@@ -115,39 +116,28 @@ class WarningPresentBinarySensor(BinarySensor):
         return f"{self.base_name()} {WARNINGS[self._warning_type][2]}"
 
 
-def is_now_between(start: datetime, end: datetime):
-    current_time = datetime.now(timezone.utc)
-    # Ensure that start and end have the same time zone information
-    start = start.replace(tzinfo=timezone.utc)
-    end = end.replace(tzinfo=timezone.utc)
-    return start <= current_time <= end
-
-
 class WarningActiveBinarySensor(WarningPresentBinarySensor):
-    def __init__(
-        self,
-        coordinator: UpdateCoordinator,
-        config_entry: ConfigEntry,
-        warning_type: str,
-    ):
-        super().__init__(coordinator, config_entry, warning_type)
+    async def async_update(self) -> None:
+        await asyncio.sleep(0)
 
     @property
     def is_on(self) -> bool:
-        level = int(self._warning_type)
-        data = self.get_data()
-        if super().is_on and data is not None:
-            warnings = data.get_level(level)
-            warn = warnings[0]  # todo map over all warnings
-
-            # start = warn.start_at
-            # end = warn.end_at
-            # return start <= datetime.datetime.now(tz=start.tzinfo) <= end  # type: ignore
-            return is_now_between(warn.start_at, warn.end_at)
+        if super().is_on:
+            return len(self.coordinator.get_by_level(self._warning_level, True)) > 0
         return False
 
-    async def async_update(self) -> None:
-        await asyncio.sleep(0)
+    @property
+    def extra_state_attributes(self) -> Mapping[str, Any]:
+        output = super().extra_state_attributes
+        output["level"] = self._warning_level
+        output["warnings"] = []
+        if self.is_on:
+            output["warnings"] = [
+                x.__dict__
+                for x in self.coordinator.get_by_level(self._warning_level, True)
+            ]
+
+        return output
 
     @property
     def unique_id(self):
@@ -163,7 +153,7 @@ PHENOMENONS SENSOR
 """
 
 
-class PhenomenonWarningPresentBinarySensor(BinarySensor):
+class PhenomenonWarningPresentBinarySensor(MWPBinarySensor):
     def __init__(
         self,
         coordinator: UpdateCoordinator,
@@ -171,44 +161,61 @@ class PhenomenonWarningPresentBinarySensor(BinarySensor):
         phenomenon_code: str,
     ):
         super().__init__(coordinator, config_entry)
-        self._phenomenon_type = phenomenon_code
+        self._phenomenon_code = phenomenon_code
+        self._phenomenon_name = PHENOMENONS[self._phenomenon_code][0]
         self._attr_entity_registry_enabled_default = False
 
     @property
     def is_on(self) -> bool:
-        data = self.get_data()
-        return (
-            data is not None
-            and self._phenomenon_type in data.by_phenomenon
-            and len(data.by_phenomenon[self._phenomenon_type]) > 0
-        )
-
-    @property
-    def available(self) -> bool:
-        data = self.get_data()
-        return super().available and data is not None and data.warnings is not None
+        return len(self.coordinator.get_by_phenomenon(self._phenomenon_code)) > 0
 
     @property
     def extra_state_attributes(self) -> Mapping[str, Any]:
         output = super().extra_state_attributes
-        phenomenon_code = self._phenomenon_type
-        output["phenomenon"] = PHENOMENONS[self._phenomenon_type][0]
+        output["phenomenon"] = self._phenomenon_name
         output["warnings"] = []
-
-        data = self.get_data()
-        if self.is_on and data is not None:
-            output["warnings"] = data.get_phenomenon_dict(phenomenon_code)
+        if self.is_on:
+            output["warnings"] = [
+                x.__dict__
+                for x in self.coordinator.get_by_phenomenon(self._phenomenon_code)
+            ]
 
         return output
 
     @property
     def unique_id(self):
-        return f"{super().unique_id}_present_{self._phenomenon_type.lower()}"
+        return f"{super().unique_id}_present_{self._phenomenon_code.lower()}"
 
     # @property
     # def icon(self):
-    #     return WARNINGS[self._phenomenon_type][1]
+    #     return WARNINGS[self._phenomenon_code][1]
 
     @property
     def name(self):
-        return f"{self.base_name()} {PHENOMENONS[self._phenomenon_type][0]}"
+        return f"{self.base_name()} {self._phenomenon_name} (ogłoszony)"
+
+
+class PhenomenonWarningActiveBinarySensor(PhenomenonWarningPresentBinarySensor):
+    @property
+    def is_on(self) -> bool:
+        return len(self.coordinator.get_by_phenomenon(self._phenomenon_code, True)) > 0
+
+    @property
+    def extra_state_attributes(self) -> Mapping[str, Any]:
+        output = super().extra_state_attributes
+        output["warnings"] = []
+        if self.is_on:
+            output["warnings"] = [
+                x.__dict__
+                for x in self.coordinator.get_by_phenomenon(self._phenomenon_code, True)
+            ]
+
+        return output
+
+    @property
+    def unique_id(self):
+        return super().unique_id.replace("present", "active")
+
+    @property
+    def name(self):
+        return f"{self.base_name()} {self._phenomenon_name}"

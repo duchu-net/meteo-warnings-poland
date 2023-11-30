@@ -1,44 +1,47 @@
 """ based on https://github.com/PiotrMachowski/Home-Assistant-custom-components-Burze.dzis.net """
+from datetime import timedelta
 import logging
 from typing import Any, Mapping
 import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.data_entry_flow import FlowResult
-from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.selector import selector
+from homeassistant.const import CONF_UNIT_OF_MEASUREMENT, CONF_NAME
 
-from .const import CONF_REGION_ID, DEFAULT_NAME, DOMAIN, REGIONS
+from .const import (
+    CONF_REGION_ID,
+    CONF_UPDATE_INTERVAL,
+    DEFAULT_NAME,
+    DOMAIN,
+    REGIONS,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
-# DATA_SCHEMA_REGION_ID = vol.Schema({vol.Required(CONF_REGION_ID): str})
+mapped_list = sorted(
+    [{"value": key, "label": value} for key, value in REGIONS.items()],
+    key=lambda item: item["label"].lower(),
+)
 DATA_SCHEMA_REGION_ID = vol.Schema(
     {
         vol.Required(CONF_REGION_ID): selector(
             {
                 "select": {
-                    "options": sorted(list(REGIONS.values()), key=lambda x: x.lower()),
+                    "options": mapped_list,
                 }
             }
+        ),
+        vol.Optional(CONF_NAME): selector({"text": {}}),
+        # vol.Optional(
+        #     CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL.total_seconds()
+        # ): selector({"duration": {}}),
+        vol.Optional(CONF_UPDATE_INTERVAL, default=15): selector(
+            {"number": {"min": 5, "max": 60, CONF_UNIT_OF_MEASUREMENT: "min"}}
         ),
     }
 )
 # DATA_SCHEMA_API_KEY = vol.Schema({vol.Required(CONF_API_KEY): str})
-
-# DATA_SCHEMA_USE_HOME_LOCATION = vol.Schema(
-#     {vol.Required(CONF_USE_HOME_COORDINATES): bool}
-# )
-
-# DATA_SCHEMA_LOCATION = vol.Schema(
-#     {
-#         vol.Required(CONF_LOCATION): selector.LocationSelector(
-#             selector.LocationSelectorConfig(radius=False, icon="mdi:radar")
-#         ),
-#     }
-# )
-
-# DATA_SCHEMA_RADIUS = vol.Schema({vol.Required(CONF_RADIUS): cv.positive_int})
 
 
 class FlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
@@ -46,30 +49,40 @@ class FlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
     def __init__(self):
         self._region_id: str
-        # self._api_key = None
-        # self._latitude = None
-        # self._longitude = None
-        # self._use_home_coordinates = None
-        # self._radius = None
+        self._name = None
+        self._update_interval = None
 
     async def async_step_user(self, user_input=None) -> FlowResult:
         errors = {}
         if user_input is not None:
-            region_name = user_input[CONF_REGION_ID]
-            _LOGGER.debug("entered region id", region_name)
+            region_id = user_input[CONF_REGION_ID]
+            name = user_input.get(CONF_NAME, None)
+            update_interval = user_input[CONF_UPDATE_INTERVAL]
+            _LOGGER.debug("entered region id: {region_id}, {name}, {update_interval}")
 
-            found_id = None
-            for key, value in REGIONS.items():
-                if value == region_name:
-                    found_id = key
-                    break
-
-            if found_id:
-                self._region_id = found_id
-                # return await self.async_step_use_home_location()
-                return await self.async_create_entry_from_fields()
+            if region_id in REGIONS:
+                self._region_id = region_id
             else:
                 errors[CONF_REGION_ID] = "invalid_region"
+
+            if name:
+                self._name = name
+            else:
+                self._name = None
+
+            # else:
+            #     errors[CONF_REGION_ID] = "invalid_name"
+
+            # if update_interval >= MIN_UPDATE_INTERVAL:
+            if update_interval >= 5:
+                self._update_interval = timedelta(minutes=update_interval)
+            else:
+                errors[CONF_UPDATE_INTERVAL] = "invalid_interval"
+
+            if len(errors) == 0:
+                return await self.async_create_entry_from_fields()
+                # return await self.async_step_use_home_location()
+
         return self.async_show_form(
             step_id="user", data_schema=DATA_SCHEMA_REGION_ID, errors=errors
         )
@@ -120,19 +133,13 @@ class FlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     #     return await self.async_create_entry_from_fields()
 
     async def async_create_entry_from_fields(self):
-        # if self._use_home_coordinates:
-        #     title = f"{DEFAULT_NAME}"
-        # else:
-        #     title = f"{DEFAULT_NAME} ({self._latitude:.2f}, {self._longitude:.2f})"
-        title = f"{DEFAULT_NAME} ({REGIONS[self._region_id]})"
+        title = f"Powiat {REGIONS[self._region_id]}"
         return self.async_create_entry(
             title=title,
             data={
                 CONF_REGION_ID: self._region_id,
+                CONF_NAME: self._name,
+                CONF_UPDATE_INTERVAL: self._update_interval,
                 # CONF_API_KEY: self._api_key,
-                # CONF_LATITUDE: self._latitude,
-                # CONF_LONGITUDE: self._longitude,
-                # CONF_USE_HOME_COORDINATES: self._use_home_coordinates,
-                # CONF_RADIUS: self._radius,
             },
         )

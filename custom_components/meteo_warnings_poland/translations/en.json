@@ -2,9 +2,11 @@
   "config": {
     "step": {
       "user": {
-        "description": "Enter the region for which you want to track warnings.",
+        "description": "Enter the region for which you want to track warnings. To check your region visit [IMGW-PIB dynamic map](https://meteo.imgw.pl/dyn/#osmet=true).",
         "data": {
-          "region_id": "Region Name"
+          "region_id": "County Name",
+          "name": "Sensor Name",
+          "update_interval": "Update frequency"
         }
       }
     },

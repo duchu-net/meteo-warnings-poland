@@ -3,17 +3,19 @@ from typing import Final
 
 from homeassistant.const import Platform
 
-CONF_NANE = "name"
 CONF_REGION_ID = "region_id"
 CONF_UPDATE_INTERVAL = "update_interval"
 
 DOMAIN: Final = "meteo_warnings_poland"
-ATTRIBUTION: Final = "Information provided by IMGW-PIB meteo, https://meteo.imgw.pl."
+SHORT_DOMAIN: Final = "mwp"
+IMGW_MANUFACTURER: Final = "Instytut Meteorologii i Gospodarki Wodnej"
+ATTRIBUTION: Final = "Data provided by IMGW-PIB meteo, https://meteo.imgw.pl."
 DEFAULT_NAME: Final = "Ostrzeżenia"
-MIN_UPDATE_INTERVAL: Final = timedelta(minutes=10)
+MIN_UPDATE_INTERVAL: Final = timedelta(minutes=5)
 DEFAULT_UPDATE_INTERVAL: Final = timedelta(minutes=15)
 
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
+
 
 WARNINGS = {
     # "-2": ["none", "mdi:check-circle", "Ostrzeżenie - Brak ostrzeżeń"],
@@ -28,50 +30,60 @@ WARNINGS = {
     "1": [
         "medium",
         "mdi:numeric-1-box",
-        "1 ogłoszony",  # present
-        "1 aktywny",  # active
-        "1 ogłoszony fenomen",  # sensor
-        "1 aktywny fenomen",  # sensor
+        "poziom 1 (ogłoszony)",  # present
+        "poziom 1",  # active
+        "poziom 1 (ogłoszony fenomen)",  # sensor
+        "poziom 1 fenomen",  # sensor
     ],
     "2": [
         "severity",
         "mdi:numeric-2-box",
-        "2 ogłoszony",
-        "2 aktywny",
-        "2 ogłoszony fenomen",
-        "2 aktywny fenomen",
+        "poziom 2 (ogłoszony)",
+        "poziom 2",
+        "poziom 2 (ogłoszony fenomen)",
+        "poziom 2 fenomen",
     ],
     "3": [
         "extreme",
         "mdi:numeric-3-box",
-        "3 ogłoszony",
-        "3 aktywny",
-        "3 ogłoszony fenomen",
-        "3 aktywny fenomen",
+        "poziom 3 (ogłoszony)",
+        "poziom 3",
+        "poziom 3 (ogłoszony fenomen)",
+        "poziom 3 fenomen",
     ],
 }
 WARNING_TYPES = list(WARNINGS.keys())
 
 PHENOMENONS = {
-    "BU": ["Burze", "-"],
-    "BG": ["Burze z gradem", "-"],
-    "IS": ["Intensywne opady śniegu", "Heavy snow"],
-    "ID": ["Intensywne opady deszczu", "-"],
-    "MS": ["Mgła intensywnie osadzająca szadź", "-"],
-    "OB": ["Oblodzenie", "Icing"],
-    "OM": ["Opady marznące", "-"],
-    "OS": ["Opady śniegu", "-"],
-    "PR": ["Przymrozki", "-"],
-    "RO": ["Roztopy", "-"],
-    "DB": ["Silny deszcz z burzami", "-"],
-    "MG": ["Gęsta mgła", "-"],
-    "MR": ["Silny mróz", "-"],
-    "SW": ["Silny wiatr", "-"],
-    "UP": ["Upał", "-"],
-    "ZZ": ["Zawieje zamiecie śnieżne", "-"],
+    "BU": ["Burze", "-", "mdi:weather-lightning"],
+    "BG": ["Burze z gradem", "-", "mdi:weather-hail"],
+    "IS": ["Intensywne opady śniegu", "Heavy snow", "mdi:weather-snowy-heavy"],
+    "ID": ["Intensywne opady deszczu", "-", "mdi:weather-pouring"],
+    "MS": ["Mgła intensywnie osadzająca szadź", "-", "mdi:weather-fog"],
+    "OB": ["Oblodzenie", "Icing", "mdi:sun-snowflake"],
+    "OM": ["Opady marznące", "-", "mdi:weather-snowy-rainy"],
+    "OS": ["Opady śniegu", "-", "mdi:weather-snowy"],
+    "PR": ["Przymrozki", "-", "mdi:snowflake-thermometer"],
+    "RO": ["Roztopy", "-", "mdi:snowflake-melt"],
+    "DB": ["Silny deszcz z burzami", "-", "mdi:weather-lightning-rainy"],
+    "MG": ["Gęsta mgła", "-", "mdi:weather-hazy"],
+    "MR": ["Silny mróz", "-", "mdi:snowflake-alert"],
+    "SW": ["Silny wiatr", "-", "mdi:weather-windy"],
+    "UP": ["Upał", "-", "mdi:weather-sunny-alert"],
+    "ZZ": ["Zawieje zamiecie śnieżne", "-", "mdi:weather-dust"],
     # "SH": ["SUSZA HYDROLOGICZNA", "-"],
     # "W_PSO": ["WEZBRANIE Z PRZEKROCZENIEM STANOW OSTRZEGAWCZYCH", "-"],
 }
+# todo
+""" 
+pnzhToCode: {
+    "susza hydrologiczna": "SH",
+    "wezbranie stany ostrzegawcze": "W_PSO",
+    "gwałtowny wzrost stanów wody": "GWSW",
+    "wezbranie stany alarmowe": "W_PSA",
+    "wezbranie z przekroczeniem stanów ostrzegawczych": "W_PSO"
+},
+"""
 PHENOMENON_CODES = list(PHENOMENONS.keys())
 
 REGIONS = {

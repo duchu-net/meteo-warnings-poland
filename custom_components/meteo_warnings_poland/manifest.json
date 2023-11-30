@@ -1,5 +1,5 @@
 {
-  "version": "0.0.3",
+  "version": "0.0.4",
   "name": "Meteo Warnings Poland",
   "domain": "meteo_warnings_poland",
   "integration": "meteo_warnings_poland",
@@ -7,6 +7,7 @@
   "codeowners": ["@DUCHu-net"],
   "documentation": "https://github.com/duchu-net/meteo-warnings-poland",
   "issue_tracker": "https://github.com/duchu-net/meteo-warnings-poland/issues",
+  "integration_type": "service",
   "iot_class": "cloud_polling",
   "config_flow": true,
   "config": {

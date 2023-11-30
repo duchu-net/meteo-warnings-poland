@@ -1,7 +1,3 @@
-import voluptuous as vol
-
-import homeassistant.helpers.config_validation as cv
-from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
@@ -9,22 +5,10 @@ from homeassistant.exceptions import ConfigEntryNotReady
 from .const import (
     CONF_REGION_ID,
     CONF_UPDATE_INTERVAL,
-    DEFAULT_UPDATE_INTERVAL,
     DOMAIN,
-    MIN_UPDATE_INTERVAL,
     PLATFORMS,
 )
 from .coordinator import UpdateCoordinator
-
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
-    {
-        vol.Required(CONF_REGION_ID): cv.string,
-        # vol.Optional(CONF_NANE, default=DEFAULT_NAME): str,
-        vol.Optional(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): vol.All(
-            vol.Coerce(int), vol.Range(min=MIN_UPDATE_INTERVAL)
-        ),
-    }
-)
 
 
 async def async_setup(hass, config):
@@ -36,7 +20,6 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry):
         hass.data.setdefault(DOMAIN, {})
 
     region_id = config_entry.data.get(CONF_REGION_ID)
-    # name = config_entry.data.get(CONF_NANE)
     update_interval = config_entry.data.get(CONF_UPDATE_INTERVAL)
 
     coordinator = UpdateCoordinator(hass, region_id, update_interval)
