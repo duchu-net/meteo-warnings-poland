@@ -22,7 +22,7 @@ from homeassistant.util.dt import parse_datetime
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 
-from .const import DOMAIN, PHENOMENON_CODES, PHENOMENONS, WARNINGS, WARNING_TYPES
+from .const import DOMAIN, NAMES, PHENOMENON_CODES, PHENOMENONS, WARNINGS, WARNING_TYPES
 from .coordinator import UpdateCoordinator, WarnData
 from .entity import SensorEntity
 
@@ -188,11 +188,13 @@ class PhenomenonWarningPresentBinarySensor(MWPBinarySensor):
 
     # @property
     # def icon(self):
-    #     return WARNINGS[self._phenomenon_code][1]
+    #     return WARNINGS[self._phenomenon_code][2]
 
     @property
     def name(self):
-        return f"{self.base_name()} {self._phenomenon_name} (ogłoszony)"
+        return (
+            f"{self.base_name()} {self._phenomenon_name} {NAMES['PresentPhenomenon']}"
+        )
 
 
 class PhenomenonWarningActiveBinarySensor(PhenomenonWarningPresentBinarySensor):
@@ -218,4 +220,4 @@ class PhenomenonWarningActiveBinarySensor(PhenomenonWarningPresentBinarySensor):
 
     @property
     def name(self):
-        return f"{self.base_name()} {self._phenomenon_name}"
+        return f"{self.base_name()} {self._phenomenon_name} {NAMES['ActivePhenomenon']}"

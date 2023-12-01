@@ -6,7 +6,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN, WARNING_TYPES, WARNINGS
+from .const import DOMAIN, PHENOMENONS, WARNING_TYPES, WARNINGS
 from .coordinator import UpdateCoordinator
 from .entity import SensorEntity as MWPSensorEntity
 
@@ -65,7 +65,7 @@ class MWPPresentWarningSensor(MWPSensor):
     @property
     def icon(self):
         if self.state is not None:
-            return "mdi:alert-circle"
+            return PHENOMENONS[self.get_data()[0].code][2]
         return "mdi:check-circle"
 
     @property
@@ -96,6 +96,7 @@ class MWPPresentWarningLevelSensor(MWPSensor):
         super().__init__(coordinator, config_entry)
         self._warning_type = warning_type
         self._warning_level = int(self._warning_type)
+        self._attr_entity_registry_enabled_default = False
 
     def get_data(self):
         return self.coordinator.get_by_level(self._warning_level)
@@ -120,9 +121,14 @@ class MWPPresentWarningLevelSensor(MWPSensor):
     def unique_id(self):
         return f"{super().unique_id}_present_level_{self._warning_type}"
 
+    # @property
+    # def icon(self):
+    #     return WARNINGS[self._warning_type][1]
     @property
     def icon(self):
-        return WARNINGS[self._warning_type][1]
+        if self.state is not None:
+            return PHENOMENONS[self.get_data()[0].code][2]
+        return "mdi:check-circle"
 
     @property
     def name(self):

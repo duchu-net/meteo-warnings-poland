@@ -1,3 +1,4 @@
+from datetime import timedelta
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
@@ -5,6 +6,7 @@ from homeassistant.exceptions import ConfigEntryNotReady
 from .const import (
     CONF_REGION_ID,
     CONF_UPDATE_INTERVAL,
+    DEFAULT_UPDATE_INTERVAL,
     DOMAIN,
     PLATFORMS,
 )
@@ -20,9 +22,11 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry):
         hass.data.setdefault(DOMAIN, {})
 
     region_id = config_entry.data.get(CONF_REGION_ID)
-    update_interval = config_entry.data.get(CONF_UPDATE_INTERVAL)
+    update_interval = config_entry.data.get(
+        CONF_UPDATE_INTERVAL, DEFAULT_UPDATE_INTERVAL
+    )
 
-    coordinator = UpdateCoordinator(hass, region_id, update_interval)
+    coordinator = UpdateCoordinator(hass, region_id, timedelta(minutes=update_interval))
     await coordinator.async_refresh()
 
     if not coordinator.last_update_success:

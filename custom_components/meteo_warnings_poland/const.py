@@ -11,12 +11,12 @@ SHORT_DOMAIN: Final = "mwp"
 IMGW_MANUFACTURER: Final = "Instytut Meteorologii i Gospodarki Wodnej"
 ATTRIBUTION: Final = "Data provided by IMGW-PIB meteo, https://meteo.imgw.pl."
 DEFAULT_NAME: Final = "Ostrzeżenia"
-MIN_UPDATE_INTERVAL: Final = timedelta(minutes=5)
-DEFAULT_UPDATE_INTERVAL: Final = timedelta(minutes=15)
+MIN_UPDATE_INTERVAL: Final = 5
+DEFAULT_UPDATE_INTERVAL: Final = 15
 
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
-
+NAMES = {"PresentPhenomenon": "(ogłoszony)", "ActivePhenomenon": "(aktywny)"}
 WARNINGS = {
     # "-2": ["none", "mdi:check-circle", "Ostrzeżenie - Brak ostrzeżeń"],
     # "-1": [
@@ -30,26 +30,26 @@ WARNINGS = {
     "1": [
         "medium",
         "mdi:numeric-1-box",
-        "poziom 1 (ogłoszony)",  # present
-        "poziom 1",  # active
-        "poziom 1 (ogłoszony fenomen)",  # sensor
-        "poziom 1 fenomen",  # sensor
+        "1p. ogłoszony",  # present
+        "1p. aktywny",  # active
+        "1p. ogłoszony fenomen",  # sensor
+        "1p. aktywny fenomen",  # sensor
     ],
     "2": [
         "severity",
         "mdi:numeric-2-box",
-        "poziom 2 (ogłoszony)",
-        "poziom 2",
-        "poziom 2 (ogłoszony fenomen)",
-        "poziom 2 fenomen",
+        "2p. ogłoszony",
+        "2p. aktywny",
+        "2p. ogłoszony fenomen",
+        "2p. aktywny fenomen",
     ],
     "3": [
         "extreme",
         "mdi:numeric-3-box",
-        "poziom 3 (ogłoszony)",
-        "poziom 3",
-        "poziom 3 (ogłoszony fenomen)",
-        "poziom 3 fenomen",
+        "3p. ogłoszony",
+        "3p. aktywny",
+        "3p. ogłoszony fenomen",
+        "3p. aktywny fenomen",
     ],
 }
 WARNING_TYPES = list(WARNINGS.keys())

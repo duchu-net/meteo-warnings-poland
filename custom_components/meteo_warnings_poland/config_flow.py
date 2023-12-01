@@ -13,7 +13,9 @@ from .const import (
     CONF_REGION_ID,
     CONF_UPDATE_INTERVAL,
     DEFAULT_NAME,
+    DEFAULT_UPDATE_INTERVAL,
     DOMAIN,
+    MIN_UPDATE_INTERVAL,
     REGIONS,
 )
 
@@ -36,7 +38,7 @@ DATA_SCHEMA_REGION_ID = vol.Schema(
         # vol.Optional(
         #     CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL.total_seconds()
         # ): selector({"duration": {}}),
-        vol.Optional(CONF_UPDATE_INTERVAL, default=15): selector(
+        vol.Optional(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): selector(
             {"number": {"min": 5, "max": 60, CONF_UNIT_OF_MEASUREMENT: "min"}}
         ),
     }
@@ -73,9 +75,8 @@ class FlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             # else:
             #     errors[CONF_REGION_ID] = "invalid_name"
 
-            # if update_interval >= MIN_UPDATE_INTERVAL:
-            if update_interval >= 5:
-                self._update_interval = timedelta(minutes=update_interval)
+            if update_interval >= MIN_UPDATE_INTERVAL:
+                self._update_interval = update_interval
             else:
                 errors[CONF_UPDATE_INTERVAL] = "invalid_interval"
 
