@@ -186,9 +186,9 @@ class PhenomenonWarningPresentBinarySensor(MWPBinarySensor):
     def unique_id(self):
         return f"{super().unique_id}_present_{self._phenomenon_code.lower()}"
 
-    # @property
-    # def icon(self):
-    #     return WARNINGS[self._phenomenon_code][2]
+    @property
+    def icon(self):
+        return PHENOMENONS[self._phenomenon_code][2]
 
     @property
     def name(self):
