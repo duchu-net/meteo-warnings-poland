@@ -1,8 +1,8 @@
-Home Assistant sensor with meteo warnings in Poland.
-
-[<img src="https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/mwp-dashboard.jpg" width="300" />](https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/mwp-dashboard.jpg)
-[<img src="https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/mwp-states.jpg" width="300" />](https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/mwp-states.jpg)
-[<img src="https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/mwp-attr.jpg" width="300" />](https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/mwp-attr.jpg)
+Home Assistant sensor with meteo alerts in Poland.  
+Version 0.0.4 contain 46 sensors, divided by warning level, phenomenon and activity.  
+  
+[<img src="https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/docs/0.0.4-dashboard.jpg" width="300" />](https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/docs/0.0.4-dashboard.jpg)
+  
 
 ### Data source
 
@@ -13,13 +13,16 @@ Data comes from meteo service of [IMGW-PIB - Instytut Meteorologii i Gospodarki 
 - [ ] [https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn](https://meteo.imgw.pl/api/meteo/messages/v1/warnhydro/latest/warn)
 
 ## Instalation
-
+> [!WARNING]  
+> Just in case: if you have an earlier version, please remove all devices before updating 0.0.4!  
+  
 Use [HACS](https://github.com/hacs/integration) for instalation, just add `https://github.com/duchu-net/meteo-warnings-poland` as custom repo.
 
 ### Config
 
-Search and add in integration manager [Meteo Warnings Poland], selected your region for watching.  
-
+Search and add in integration manager [Meteo Warnings Poland], selected your region for watching (rest is optional) - check your region on [dynamic map](https://meteo.imgw.pl/dyn/).   
+[<img src="https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/docs/0.0.4-config.jpg" width="300" />](https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/docs/0.0.4-config.jpg)  
+  
 ### Alternatives and complements
 
 - [Burze.dzis.net sensor](https://github.com/PiotrMachowski/Home-Assistant-custom-components-Burze.dzis.net) - lightning tracking service, data source: burze.dzis.net > blitzortung.org (Germany)
