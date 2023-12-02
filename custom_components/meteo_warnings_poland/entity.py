@@ -51,7 +51,7 @@ class SensorEntity(CoordinatorEntity[UpdateCoordinator]):
         return self.base_name()
 
     def base_name(self):
-        name: str | None = self.config_entry.data[CONF_NAME]
+        name: str | None = self.config_entry.data.get(CONF_NAME)
         if name is not None:
             return name
         region_id = self.config_entry.data[CONF_REGION_ID]
