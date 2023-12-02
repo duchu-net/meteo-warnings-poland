@@ -1,6 +1,5 @@
 import asyncio
 from dataclasses import dataclass
-from datetime import datetime, timezone
 import logging
 from typing import Any, List, Mapping
 
@@ -22,7 +21,15 @@ from homeassistant.util.dt import parse_datetime
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 
-from .const import DOMAIN, NAMES, PHENOMENON_CODES, PHENOMENONS, WARNINGS, WARNING_TYPES
+from .const import (
+    DOMAIN,
+    NAMES,
+    PHENOMENON_CODES,
+    PHENOMENONS,
+    SENSOR_CATEGORIES,
+    WARNINGS,
+    WARNING_TYPES,
+)
 from .coordinator import UpdateCoordinator, WarnData
 from .entity import SensorEntity
 
@@ -65,7 +72,6 @@ async def async_setup_entry(
 class MWPBinarySensor(BinarySensorEntity, SensorEntity):
     def __init__(self, coordinator: UpdateCoordinator, config_entry: ConfigEntry):
         super().__init__(coordinator, config_entry)
-        self._attr_entity_registry_enabled_default = False
 
     @property
     def device_class(self):
@@ -77,6 +83,8 @@ class MWPBinarySensor(BinarySensorEntity, SensorEntity):
 
 
 class WarningPresentBinarySensor(MWPBinarySensor):
+    _category = SENSOR_CATEGORIES["LEVEL_PRESENT"]
+
     def __init__(
         self,
         coordinator: UpdateCoordinator,
@@ -117,6 +125,8 @@ class WarningPresentBinarySensor(MWPBinarySensor):
 
 
 class WarningActiveBinarySensor(WarningPresentBinarySensor):
+    _category = SENSOR_CATEGORIES["LEVEL_ACTIVE"]
+
     async def async_update(self) -> None:
         await asyncio.sleep(0)
 
@@ -154,6 +164,8 @@ PHENOMENONS SENSOR
 
 
 class PhenomenonWarningPresentBinarySensor(MWPBinarySensor):
+    _category = SENSOR_CATEGORIES["PHENOMENON_PRESENT"]
+
     def __init__(
         self,
         coordinator: UpdateCoordinator,
@@ -163,7 +175,6 @@ class PhenomenonWarningPresentBinarySensor(MWPBinarySensor):
         super().__init__(coordinator, config_entry)
         self._phenomenon_code = phenomenon_code
         self._phenomenon_name = PHENOMENONS[self._phenomenon_code][0]
-        self._attr_entity_registry_enabled_default = False
 
     @property
     def is_on(self) -> bool:
@@ -198,6 +209,8 @@ class PhenomenonWarningPresentBinarySensor(MWPBinarySensor):
 
 
 class PhenomenonWarningActiveBinarySensor(PhenomenonWarningPresentBinarySensor):
+    _category = SENSOR_CATEGORIES["PHENOMENON_ACTIVE"]
+
     @property
     def is_on(self) -> bool:
         return len(self.coordinator.get_by_phenomenon(self._phenomenon_code, True)) > 0

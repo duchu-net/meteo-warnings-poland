@@ -1,4 +1,5 @@
 from __future__ import annotations
+import logging
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_ATTRIBUTION, CONF_NAME
@@ -8,6 +9,7 @@ from homeassistant.helpers.device_registry import DeviceEntryType
 
 from .const import (
     ATTRIBUTION,
+    CONF_ENABLED_SENSORS,
     CONF_REGION_ID,
     DEFAULT_NAME,
     DOMAIN,
@@ -17,11 +19,18 @@ from .const import (
 )
 from .coordinator import IntegrationData, UpdateCoordinator
 
+_LOGGER = logging.getLogger(__name__)
+
 
 class SensorEntity(CoordinatorEntity[UpdateCoordinator]):
+    _category: str = "OTHER"
+
     def __init__(self, coordinator: UpdateCoordinator, config_entry: ConfigEntry):
         super().__init__(coordinator)
         self.config_entry = config_entry
+        self._attr_entity_registry_enabled_default = (
+            self._category in config_entry.data.get(CONF_ENABLED_SENSORS, [])
+        )
 
     @property
     def extra_state_attributes(self) -> dict:

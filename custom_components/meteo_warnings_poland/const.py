@@ -1,10 +1,12 @@
 from datetime import timedelta
+from enum import Enum
 from typing import Final
 
 from homeassistant.const import Platform
 
 CONF_REGION_ID = "region_id"
 CONF_UPDATE_INTERVAL = "update_interval"
+CONF_ENABLED_SENSORS = "enabled_sensors"
 
 DOMAIN: Final = "meteo_warnings_poland"
 SHORT_DOMAIN: Final = "mwp"
@@ -16,6 +18,14 @@ DEFAULT_UPDATE_INTERVAL: Final = 15
 
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
+SENSOR_CATEGORIES = {
+    "BASIC": "BASIC",
+    "LEVEL_PRESENT": "LEVEL_PRESENT",
+    "LEVEL_ACTIVE": "LEVEL_ACTIVE",
+    "PHENOMENON_PRESENT": "PHENOMENON_PRESENT",
+    "PHENOMENON_ACTIVE": "PHENOMENON_ACTIVE",
+    "OTHER": "OTHER",
+}
 NAMES = {"PresentPhenomenon": "(ogłoszony)", "ActivePhenomenon": "(aktywny)"}
 WARNINGS = {
     # "-2": ["none", "mdi:check-circle", "Ostrzeżenie - Brak ostrzeżeń"],

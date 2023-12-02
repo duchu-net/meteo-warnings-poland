@@ -1,7 +1,5 @@
 """ based on https://github.com/PiotrMachowski/Home-Assistant-custom-components-Burze.dzis.net """
-from datetime import timedelta
 import logging
-from typing import Any, Mapping
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -10,27 +8,32 @@ from homeassistant.helpers.selector import selector
 from homeassistant.const import CONF_UNIT_OF_MEASUREMENT, CONF_NAME
 
 from .const import (
+    CONF_ENABLED_SENSORS,
     CONF_REGION_ID,
     CONF_UPDATE_INTERVAL,
-    DEFAULT_NAME,
     DEFAULT_UPDATE_INTERVAL,
     DOMAIN,
     MIN_UPDATE_INTERVAL,
     REGIONS,
+    SENSOR_CATEGORIES,
 )
 
 _LOGGER = logging.getLogger(__name__)
 
-mapped_list = sorted(
+regions_sequence = sorted(
     [{"value": key, "label": value} for key, value in REGIONS.items()],
     key=lambda item: item["label"].lower(),
 )
-DATA_SCHEMA_REGION_ID = vol.Schema(
+enabled_sequence = [
+    {"value": key, "label": key.lower()} for key, value in SENSOR_CATEGORIES.items()
+]
+
+DATA_SCHEMA_FIRST_STEP = vol.Schema(
     {
         vol.Required(CONF_REGION_ID): selector(
             {
                 "select": {
-                    "options": mapped_list,
+                    "options": regions_sequence,
                 }
             }
         ),
@@ -41,9 +44,11 @@ DATA_SCHEMA_REGION_ID = vol.Schema(
         vol.Optional(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): selector(
             {"number": {"min": 5, "max": 60, CONF_UNIT_OF_MEASUREMENT: "min"}}
         ),
+        vol.Optional(CONF_ENABLED_SENSORS, default=["BASIC"]): selector(
+            {"select": {"options": enabled_sequence, "multiple": True, "mode": "list"}}
+        ),
     }
 )
-# DATA_SCHEMA_API_KEY = vol.Schema({vol.Required(CONF_API_KEY): str})
 
 
 class FlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
@@ -53,6 +58,7 @@ class FlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         self._region_id: str
         self._name = None
         self._update_interval = None
+        self._enabled_sensors = None
 
     async def async_step_user(self, user_input=None) -> FlowResult:
         errors = {}
@@ -60,7 +66,8 @@ class FlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             region_id = user_input[CONF_REGION_ID]
             name = user_input.get(CONF_NAME, None)
             update_interval = user_input[CONF_UPDATE_INTERVAL]
-            _LOGGER.debug("entered region id: {region_id}, {name}, {update_interval}")
+            enabled_sensors = user_input[CONF_ENABLED_SENSORS]
+            _LOGGER.debug(f"entered region id: {region_id}, {name}, {update_interval}")
 
             if region_id in REGIONS:
                 self._region_id = region_id
@@ -72,20 +79,22 @@ class FlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             else:
                 self._name = None
 
-            # else:
-            #     errors[CONF_REGION_ID] = "invalid_name"
-
             if update_interval >= MIN_UPDATE_INTERVAL:
                 self._update_interval = update_interval
             else:
                 errors[CONF_UPDATE_INTERVAL] = "invalid_interval"
+
+            if len(enabled_sensors) > 0:
+                self._enabled_sensors = enabled_sensors
+            else:
+                errors[CONF_ENABLED_SENSORS] = "empty_sensors"
 
             if len(errors) == 0:
                 return await self.async_create_entry_from_fields()
                 # return await self.async_step_use_home_location()
 
         return self.async_show_form(
-            step_id="user", data_schema=DATA_SCHEMA_REGION_ID, errors=errors
+            step_id="user", data_schema=DATA_SCHEMA_FIRST_STEP, errors=errors
         )
 
     # async def async_step_use_home_location(self, user_input=None) -> FlowResult:
@@ -141,6 +150,6 @@ class FlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 CONF_REGION_ID: self._region_id,
                 CONF_NAME: self._name,
                 CONF_UPDATE_INTERVAL: self._update_interval,
-                # CONF_API_KEY: self._api_key,
+                CONF_ENABLED_SENSORS: self._enabled_sensors,
             },
         )

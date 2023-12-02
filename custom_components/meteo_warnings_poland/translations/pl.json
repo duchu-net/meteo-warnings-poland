@@ -4,9 +4,10 @@
       "user": {
         "description": "Podaj region dla którego chcesz śledzić ostrzeżenia. Aby sprawdzić swój region odwiedź [IMGW-PIB mapa dynamiczna](https://meteo.imgw.pl/dyn/#osmet=true).",
         "data": {
-          "region_id": "Nazwa Powiatu",
+          "region_id": "Nazwa Powiatu*",
           "name": "Nazwa Sensora",
-          "update_interval": "Częstotliwość aktualizacji"
+          "update_interval": "Częstotliwość aktualizacji",
+          "enabled_sensors": "Domyślne czujniki włączone po inicjalizacji"
         }
       }
     },

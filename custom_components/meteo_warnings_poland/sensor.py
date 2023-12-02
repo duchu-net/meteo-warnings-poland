@@ -6,7 +6,13 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN, PHENOMENONS, WARNING_TYPES, WARNINGS
+from .const import (
+    DOMAIN,
+    PHENOMENONS,
+    SENSOR_CATEGORIES,
+    WARNING_TYPES,
+    WARNINGS,
+)
 from .coordinator import UpdateCoordinator
 from .entity import SensorEntity as MWPSensorEntity
 
@@ -40,6 +46,8 @@ class MWPSensor(SensorEntity, MWPSensorEntity):
 
 
 class MWPPresentWarningSensor(MWPSensor):
+    _category = SENSOR_CATEGORIES["BASIC"]
+
     def get_data(self):
         return self.coordinator.get_all()
 
@@ -87,6 +95,8 @@ class MWPActiveWarningSensor(MWPPresentWarningSensor):
 
 
 class MWPPresentWarningLevelSensor(MWPSensor):
+    _category = SENSOR_CATEGORIES["LEVEL_PRESENT"]
+
     def __init__(
         self,
         coordinator: UpdateCoordinator,
@@ -96,7 +106,6 @@ class MWPPresentWarningLevelSensor(MWPSensor):
         super().__init__(coordinator, config_entry)
         self._warning_type = warning_type
         self._warning_level = int(self._warning_type)
-        self._attr_entity_registry_enabled_default = False
 
     def get_data(self):
         return self.coordinator.get_by_level(self._warning_level)
@@ -136,6 +145,8 @@ class MWPPresentWarningLevelSensor(MWPSensor):
 
 
 class MWPActiveWarningLevelSensor(MWPPresentWarningLevelSensor):
+    _category = SENSOR_CATEGORIES["LEVEL_ACTIVE"]
+
     def get_data(self):
         return self.coordinator.get_by_level(self._warning_level, True)
 
