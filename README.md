@@ -1,7 +1,7 @@
 Home Assistant sensor with meteo alerts in Poland.  
 Version 0.0.4 contain 46 sensors, divided by warning level, phenomenon and activity.  
   
-[<img src="https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/docs/0.0.4-dashboard.jpg" width="300" />](https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/docs/0.0.4-dashboard.jpg)
+[<img src="https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/tree/0.0.4/docs/0.0.4-dashboard.jpg" width="300" />](https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/tree/0.0.4/docs/0.0.4-dashboard.jpg)
   
 
 ### Data source
@@ -21,7 +21,7 @@ Use [HACS](https://github.com/hacs/integration) for instalation, just add `https
 ### Config
 
 Search and add in integration manager [Meteo Warnings Poland], selected your region for watching (rest is optional) - check your region on [dynamic map](https://meteo.imgw.pl/dyn/).   
-[<img src="https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/docs/0.0.4-config.jpg" width="300" />](https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/main/docs/0.0.4-config.jpg)  
+[<img src="https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/tree/0.0.4/docs/0.0.4-config.jpg" width="300" />](https://raw.githubusercontent.com/duchu-net/meteo-warnings-poland/tree/0.0.4/docs/0.0.4-config.jpg)  
   
 ### Alternatives and complements
 
