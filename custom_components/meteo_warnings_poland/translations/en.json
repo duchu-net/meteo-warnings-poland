@@ -4,10 +4,10 @@
       "user": {
         "description": "Enter the region for which you want to track warnings. To check your region visit [IMGW-PIB dynamic map](https://meteo.imgw.pl/dyn/#osmet=true).",
         "data": {
-          "region_id": "County Name*",
           "name": "Sensor Name",
+          "region_id": "County Name*",
           "update_interval": "Update frequency",
-          "enabled_sensors": "Default sensors enabled after initialization"
+          "enabled_sensors": "After configuration, enable sensors from the category (will remain available and enableable)"
         }
       }
     },
