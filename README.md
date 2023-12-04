@@ -23,7 +23,51 @@ Use [HACS](https://github.com/hacs/integration) for instalation, just add `https
 Search and add in integration manager [Meteo Warnings Poland], selected your region for watching (rest is optional) - check your region on [dynamic map](https://meteo.imgw.pl/dyn/).   
 [<img src="https://github.com/duchu-net/meteo-warnings-poland/blob/0.0.4/docs/0.0.4-config.jpg" width="300" />](https://github.com/duchu-net/meteo-warnings-poland/blob/0.0.4/docs/0.0.4-config.jpg)  
   
-### Alternatives and complements
+## Examples
+### automation
+```yaml
+automation:
+  - alias: "Set Light Color Based on Warning Level"
+    trigger:
+      - platform: state
+        entity_id: sensor.ostrzezenia_krosno_poziom_ogloszony
+    action:
+      - choose:
+          - conditions:
+              - "{{ states('sensor.ostrzezenia_krosno_poziom_ogloszony') | int == 0 }}"
+            sequence:
+              - service: light.turn_on
+                target:
+                  entity_id: light.my_rgb_lamp_entity
+                data:
+                  rgb_color: [0, 255, 0] # Green
+          - conditions:
+              - "{{ states('sensor.ostrzezenia_krosno_poziom_ogloszony') | int == 1 }}"
+            sequence:
+              - service: light.turn_on
+                target:
+                  entity_id: light.my_rgb_lamp_entity
+                data:
+                  rgb_color: [255, 255, 0]  # Yellow
+          - conditions:
+              - "{{ states('sensor.ostrzezenia_krosno_poziom_ogloszony') | int == 2 }}"
+            sequence:
+              - service: light.turn_on
+                target:
+                  entity_id: light.my_rgb_lamp_entity
+                data:
+                  rgb_color: [255, 165, 0]  # Orange
+          - conditions:
+              - "{{ states('sensor.ostrzezenia_krosno_poziom_ogloszony') | int == 3 }}"
+            sequence:
+              - service: light.turn_on
+                target:
+                  entity_id: light.my_rgb_lamp_entity
+                data:
+                  rgb_color: [255, 0, 0]  # Red
+```
+
+## Alternatives and complements
 
 - [Burze.dzis.net sensor](https://github.com/PiotrMachowski/Home-Assistant-custom-components-Burze.dzis.net) - lightning tracking service, data source: burze.dzis.net > blitzortung.org (Germany)
 - [MeteoAlarm](https://www.home-assistant.io/integrations/meteoalarm/) - service aggregating weather warnings in Europe, data source: Federal Institute for Geology, Geophysics, Climatology and Meteorology (Austria)
