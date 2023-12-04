@@ -28,6 +28,9 @@ async def async_setup_entry(
     entities.append(MWPPresentWarningSensor(coordinator, entry))
     """ Aktywny z nazwami zjawisk """
     entities.append(MWPActiveWarningSensor(coordinator, entry))
+    entities.append(PresentLevelBinarySensor(coordinator, entry))
+    entities.append(ActiveLevelBinarySensor(coordinator, entry))
+
     for warning_type in WARNING_TYPES:
         """Ogłoszony dla poziomu z nazwami zjawisk"""
         entities.append(MWPPresentWarningLevelSensor(coordinator, entry, warning_type))
@@ -92,6 +95,55 @@ class MWPActiveWarningSensor(MWPPresentWarningSensor):
     @property
     def name(self):
         return f"{self.base_name()} aktywny fenomen"
+
+
+class PresentLevelBinarySensor(MWPSensor):
+    _category = SENSOR_CATEGORIES["BASIC"]
+
+    def get_data(self):
+        return self.coordinator.get_all()
+
+    @property
+    def native_value(self) -> int:
+        warnings = self.get_data()
+        if len(warnings) > 0:
+            return max(x.level for x in warnings)
+        return 0
+
+    @property
+    def extra_state_attributes(self) -> Mapping[str, Any]:
+        output = super().extra_state_attributes
+        output["level"] = 0
+        output["warnings"] = []
+        warnings = self.get_data()
+        if self.state is not None and len(warnings):
+            level = max(x.level for x in warnings)
+            output["level"] = level
+            output["warnings"] = [x.__dict__ for x in self.get_data()]
+        return output
+
+    @property
+    def unique_id(self):
+        return f"{super().unique_id}_present_level"
+
+    @property
+    def name(self):
+        return f"{self.base_name()} poziom (ogłoszony)"
+
+
+class ActiveLevelBinarySensor(PresentLevelBinarySensor):
+    _category = SENSOR_CATEGORIES["BASIC"]
+
+    def get_data(self):
+        return self.coordinator.get_all(True)
+
+    @property
+    def unique_id(self):
+        return super().unique_id.replace("present", "active")
+
+    @property
+    def name(self):
+        return f"{self.base_name()} poziom (aktywny)"
 
 
 class MWPPresentWarningLevelSensor(MWPSensor):
